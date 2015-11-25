@@ -231,6 +231,10 @@ public class StudentDAO {
 		}
 		return retVal;
 	}
+	
+	public static boolean addaStudentSEN(Student student){
+		return false;
+	}
 
 	public static boolean importStudentCSV(String filePath) {
 		boolean retVal = false;
