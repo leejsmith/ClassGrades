@@ -17,9 +17,9 @@ public class SenList extends AbstractList<Sen> {
 	}
 
 	public Sen getSenByID(int id) throws UnknownSenException {
-		for (int i = 0; i < size(); i++) {
-			if (get(i).getSenID() == id) {
-				return this.get(i);
+		for (Sen s : this) {
+			if (s.getSenID() == id) {
+				return s;
 			}
 		}
 		throw new UnknownSenException();
