@@ -10,7 +10,7 @@ CREATE TABLE tbl_Student(
     catMean INTEGER,
     catVerbal INTEGER,
     catNonVerbal INTEGER,
-    catQuantative INTEGER
+    catQuant INTEGER
 );
 
 CREATE TABLE tbl_Sen(
@@ -26,3 +26,15 @@ CREATE TABLE tbl_StudentSen (
     FOREIGN KEY(senID) REFERENCES tbl_Sen(senID)
 );
 
+CREATE TABLE tbl_Allergy(
+    allergyID INTEGER PRIMARY KEY AUTOINCREMENT,
+    allergyName TEXT
+);
+
+CREATE TABLE tbl_StudentAllergy(
+    studentID INTEGER,
+    allergyID INTEGER,
+    PRIMARY KEY (studentID, allergyID),
+    FOREIGN KEY (studentID) REFERENCES tbl_Student(studentID),
+    FOREIGN KEY (allergyID) REFERENCES tbl_Allergy(allergyID)
+);
