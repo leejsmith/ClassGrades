@@ -35,7 +35,7 @@ public class GeneralDAO {
 				int allergyID = rs.getInt("allergyID");
 				String allergyName = rs.getString("allergyName");
 
-				allergyList.addAllergy(allergyID, allergyName);
+				allergyList.add(allergyID, allergyName);
 			}
 		}
 		catch (SQLException e) {
@@ -58,7 +58,7 @@ public class GeneralDAO {
 				int senID = rs.getInt("senID");
 				String senName = rs.getString("senName");
 
-				senList.addSen(senID, senName);
+				senList.add(senID, senName);
 			}
 		}
 		catch (SQLException e) {

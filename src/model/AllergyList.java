@@ -12,14 +12,24 @@ import java.util.AbstractList;
  */
 public class AllergyList extends AbstractList<Allergy> {
 
+	Allergy[] allergyList;
+
 	public AllergyList() {
-		super();
+		allergyList = new Allergy[1];
+	}
+
+	public AllergyList(int size) {
+		allergyList = new Allergy[size];
+	}
+
+	public AllergyList(Allergy[] list) {
+		this.allergyList = list;
 	}
 
 	public Allergy getAllergyByID(int id) throws UnknownAllergyException {
-		for (Allergy a : this) {
-			if (a.getAllergyID() == id) {
-				return a;
+		for (Allergy s : allergyList) {
+			if (s.getAllergyID() == id) {
+				return s;
 			}
 		}
 		throw new UnknownAllergyException();
@@ -32,7 +42,7 @@ public class AllergyList extends AbstractList<Allergy> {
 	 */
 	@Override
 	public Allergy get(int index) {
-		return this.get(index);
+		return allergyList[index];
 	}
 
 	/*
@@ -42,15 +52,43 @@ public class AllergyList extends AbstractList<Allergy> {
 	 */
 	@Override
 	public int size() {
-		return this.size();
+		return allergyList.length;
 	}
 
-	public void addAllergy(Allergy allergy) {
-		this.add(allergy);
+	@Override
+	public boolean add(Allergy allergy) {
+		if (allergyList.length != 1) {
+			Allergy[] tmp = allergyList;
+			allergyList = new Allergy[tmp.length + 1];
+			for (int i = 0; i < tmp.length; i++) {
+				allergyList[i] = tmp[i];
+			}
+		}
+		allergyList[allergyList.length - 1] = allergy;
+
+		if (allergyList[allergyList.length - 1].getAllergyID() == allergy.getAllergyID()) {
+			return true;
+		}
+		else {
+			return false;
+		}
 	}
 
-	public void addAllergy(int allergyID, String allergyName) {
-		this.add(new Allergy(allergyID, allergyName));
+	public boolean add(int allergyID, String allergyName) {
+		if (allergyList.length != 1) {
+			Allergy[] tmp = allergyList;
+			allergyList = new Allergy[tmp.length + 1];
+			for (int i = 0; i < tmp.length; i++) {
+				allergyList[i] = tmp[i];
+			}
+		}
+		allergyList[allergyList.length - 1] = new Allergy(allergyID, allergyName);
+		if (allergyList[allergyList.length - 1].getAllergyID() == allergyID) {
+			return true;
+		}
+		else {
+			return false;
+		}
 	}
 
 }

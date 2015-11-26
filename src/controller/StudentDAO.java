@@ -11,9 +11,14 @@ import java.sql.SQLException;
 import java.sql.Statement;
 import java.util.ArrayList;
 
+import javax.swing.JOptionPane;
+
 import model.AllergyList;
+import model.Gender;
 import model.SenList;
 import model.Student;
+import model.UnknownAllergyException;
+import model.UnknownSenException;
 
 /**
  * Controls Access to the sqlite database for management of the Student data and
@@ -40,7 +45,7 @@ public class StudentDAO {
 
 		String studentSQL = "SELECT * FROM tbl_Student";
 		String senSQL;
-		String allerySQL;
+		String allergySQL;
 
 		try {
 			query = getConnection().createStatement();
@@ -60,13 +65,52 @@ public class StudentDAO {
 				int catVerbal = studentSet.getInt("catVerbal");
 				int catNonVerbal = studentSet.getInt("catNonVerbal");
 				int catQuant = studentSet.getInt("catQuant");
+
+				Gender gender;
+
+				switch (genderIn) {
+				case "MALE":
+					gender = Gender.MALE;
+					break;
+				case "FEMALE":
+					gender = Gender.FEMALE;
+				default:
+					gender = Gender.OTHER;
+				}
+
+				Student newStudent = new Student(studentID, surname, forname, regGroup, gender, examNumber, pupilPremium, eal, catMean, catVerbal, catNonVerbal, catQuant);
+
 				senSQL = "SELECT * FROM tbl_StudentSen WHERE studentID=" + studentID;
 
 				ResultSet senSet = query.executeQuery(senSQL);
-
+				int senID;
 				while (senSet.next()) {
-
+					senID = senSet.getInt("senID");
+					try {
+						newStudent.addSenStatus(senList.getSenByID(senID));
+					}
+					catch (UnknownSenException e) {
+						JOptionPane.showMessageDialog(null,
+								"Error importing Student SEN Information. Speak to System Administrator. Quote the Following \"Student SEN Import Error - Student" + studentID + "\" ");
+					}
 				}
+
+				allergySQL = "SELECT * FROM tbl_StudentAllergy WHERE studentID=" + studentID;
+
+				ResultSet allergySet = query.executeQuery(allergySQL);
+				int allergyID;
+				while (allergySet.next()) {
+					allergyID = allergySet.getInt("allergyID");
+					try {
+						newStudent.addAllergy(allergyList.getAllergyByID(allergyID));
+					}
+					catch (UnknownAllergyException e) {
+						JOptionPane.showMessageDialog(null,
+								"Error importing Student Allergy Information. Speak to System Administrator. Quote the Following \"Student Allergy Import Error - Student" + studentID + "\" ");
+					}
+				}
+
+				studentList.add(newStudent);
 			}
 
 		}

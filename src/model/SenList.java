@@ -12,12 +12,22 @@ import java.util.AbstractList;
  */
 public class SenList extends AbstractList<Sen> {
 
+	Sen[] senList;
+
 	public SenList() {
-		super();
+		senList = new Sen[1];
+	}
+
+	public SenList(int size) {
+		senList = new Sen[size];
+	}
+
+	public SenList(Sen[] list) {
+		this.senList = list;
 	}
 
 	public Sen getSenByID(int id) throws UnknownSenException {
-		for (Sen s : this) {
+		for (Sen s : senList) {
 			if (s.getSenID() == id) {
 				return s;
 			}
@@ -32,7 +42,7 @@ public class SenList extends AbstractList<Sen> {
 	 */
 	@Override
 	public Sen get(int index) {
-		return this.get(index);
+		return senList[index];
 	}
 
 	/*
@@ -42,15 +52,43 @@ public class SenList extends AbstractList<Sen> {
 	 */
 	@Override
 	public int size() {
-		return this.size();
+		return senList.length;
 	}
 
-	public void addSen(Sen sen) {
-		this.add(sen);
+	@Override
+	public boolean add(Sen sen) {
+		if (senList.length != 1) {
+			Sen[] tmp = senList;
+			senList = new Sen[tmp.length + 1];
+			for (int i = 0; i < tmp.length; i++) {
+				senList[i] = tmp[i];
+			}
+		}
+		senList[senList.length - 1] = sen;
+
+		if (senList[senList.length - 1].getSenID() == sen.getSenID()) {
+			return true;
+		}
+		else {
+			return false;
+		}
 	}
 
-	public void addSen(int senID, String senName) {
-		this.add(new Sen(senID, senName));
+	public boolean add(int senID, String senName) {
+		if (senList.length != 1) {
+			Sen[] tmp = senList;
+			senList = new Sen[tmp.length + 1];
+			for (int i = 0; i < tmp.length; i++) {
+				senList[i] = tmp[i];
+			}
+		}
+		senList[senList.length - 1] = new Sen(senID, senName);
+		if (senList[senList.length - 1].getSenID() == senID) {
+			return true;
+		}
+		else {
+			return false;
+		}
 	}
 
 }
