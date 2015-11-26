@@ -4,8 +4,6 @@
 
 package model;
 
-import java.util.ArrayList;
-
 import controller.GeneralDAO;
 import controller.StudentDAO;
 
@@ -15,9 +13,9 @@ import controller.StudentDAO;
  */
 public class DataStore {
 
-	private ArrayList<Student>	studentList;
-	private SenList				senList;
-	private AllergyList			allergyList;
+	private StudentList	studentList;
+	private SenList		senList;
+	private AllergyList	allergyList;
 
 	public DataStore() {
 		senList = GeneralDAO.getSenList();

@@ -9,7 +9,6 @@ import java.sql.DriverManager;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
-import java.util.ArrayList;
 
 import javax.swing.JOptionPane;
 
@@ -17,6 +16,7 @@ import model.AllergyList;
 import model.Gender;
 import model.SenList;
 import model.Student;
+import model.StudentList;
 import model.UnknownAllergyException;
 import model.UnknownSenException;
 
@@ -38,8 +38,8 @@ public class StudentDAO {
 	 * 
 	 * @return Complete list of Students and associated information.
 	 */
-	public static ArrayList<Student> getStudents(SenList senList, AllergyList allergyList) {
-		ArrayList<Student> studentList = new ArrayList<Student>();
+	public static StudentList getStudents(SenList senList, AllergyList allergyList) {
+		StudentList studentList = new StudentList(1);
 
 		query = null;
 
