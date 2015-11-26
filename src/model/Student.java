@@ -62,8 +62,42 @@ public class Student {
 		this.catQuantitative = catQuantitative;
 		this.catNonVerbal = catNonVerbal;
 		this.averagePts = averagePts;
-
 	}
+	
+	/**
+	 * @param examNumber
+	 * @param surname
+	 * @param forenames
+	 * @param gender
+	 * @param regGroup
+	 * @param pupilPremium
+	 * @param eal
+	 * @param catMean
+	 * @param catVerbal
+	 * @param catNonVerbal
+	 * @param catQuantitative
+	 * @param averagePts
+	 */
+	public Student(int examNumber, String surname, String forenames,
+			Gender gender, String regGroup, boolean pupilPremium, boolean eal,
+			int catMean, int catVerbal, int catNonVerbal, int catQuantitative,
+			int averagePts) {
+		super();
+		this.examNumber = examNumber;
+		this.surname = surname;
+		this.forenames = forenames;
+		this.gender = gender;
+		this.regGroup = regGroup;
+		this.pupilPremium = pupilPremium;
+		this.eal = eal;
+		this.catMean = catMean;
+		this.catVerbal = catVerbal;
+		this.catNonVerbal = catNonVerbal;
+		this.catQuantitative = catQuantitative;
+		this.averagePts = averagePts;
+	}
+
+
 
 	/**
 	 * @return the studentID

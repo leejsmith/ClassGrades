@@ -57,49 +57,14 @@ public class StudentDAO {
 					sql2 = "SELECT * FROM tbl_StudentSEN WHERE studentID="
 							+ studentID;
 					ResultSet rs2 = query.executeQuery(sql2);
-					SENStatus senStatus = SENStatus.NONE;
+					SENStatus senStatus = null;
 					ArrayList<SENStatus> sen = new ArrayList<SENStatus>();
 					while (rs2.next()) {
-						switch (rs.getString("senStatus")) {
-							case "DYSLEXIA" :
-								senStatus = SENStatus.DYSLEXIA;
-								break;
-							case "DYSPRAXIA" :
-								senStatus = SENStatus.DYSPRAXIA;
-								break;
-							case "VISUAL" :
-								senStatus = SENStatus.VISUAL;
-								break;
-							case "HEARING" :
-								senStatus = SENStatus.HEARING;
-								break;
-							case "MILD_LEARNING" :
-								senStatus = SENStatus.MILD_LEARNING;
-								break;
-							case "MODERATE_LEARNING" :
-								senStatus = SENStatus.MODERATE_LEARNING;
-								break;
-							case "SEVERE_LEARNING" :
-								senStatus = SENStatus.SEVERE_LEARNING;
-								break;
-							case "EMOTIONAL_BEHAVIOURAL" :
-								senStatus = SENStatus.EMOTIONAL_BEHAVIOURAL;
-								break;
-							case "SOCIAL_EMOTIONAL_MENTAL" :
-								senStatus = SENStatus.SOCIAL_EMOTIONAL_MENTAL;
-								break;
-							case "SPEECH_LANGUAGE_COMMUNICATION" :
-								senStatus = SENStatus.SPEECH_LANGAUGE_COMMUNICATION;
-								break;
-							case "AUTISM" :
-								senStatus = SENStatus.AUTISM;
-								break;
-							default :
-								senStatus = SENStatus.NONE;
-						}
+						int senID = rs2.getInt("senID");
+						String status = rs2.getString("sen");
+						senStatus = new SENStatus(senID,status);
 						sen.add(senStatus);
 					}
-					sen = sen.size() == 0 ? null : sen;
 					boolean pupilPremium = rs.getBoolean("pupilPremium");
 					boolean eal = rs.getBoolean("eal");
 					int catMean = rs.getInt("catMean");
@@ -287,7 +252,7 @@ public class StudentDAO {
 							: 0;
 					System.out.println(catMean + "," + catVerbal + ","
 							+ catNonVerbal + "," + catQuantitive);
-					createStudent(examNumber, surname, forename, gender,
+					retVal = createStudent(examNumber, surname, forename, gender,
 							regGroup, pupilPremium, eal, catMean, catVerbal,
 							catNonVerbal, catQuantitive, averagePts);
 				}
@@ -297,17 +262,15 @@ public class StudentDAO {
 
 		} catch (IOException ioe) {
 			JOptionPane.showMessageDialog(null, "Error in file Read");
-
+			retVal = false;
 		} catch (NumberFormatException nfe) {
-			JOptionPane.showMessageDialog(null, "");
-			System.out.println("Error in Number Parse, Check Row: " + index
+			JOptionPane.showMessageDialog(null, "Error in Number Parse, Check Row: " + index
 					+ " ROW CONTENTS: '" + readLine[7] + "', '" + readLine[8]
 					+ "', '" + readLine[9] + "', '" + readLine[10] + "', '"
 					+ readLine[11] + "'");
-
+			retVal = false;
 		}
-
-		return true;
+		return retVal;
 	}
 
 	private static Connection getConnection() {

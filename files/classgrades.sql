@@ -15,13 +15,6 @@ CREATE TABLE tbl_Unit(
     unitID INTEGER PRIMARY KEY AUTOINCREMENT,
     unitName TEXT
 );
-CREATE TABLE tbl_StudentAllergy (
-    studentID INTEGER,
-    allergyID INTEGER,
-    PRIMARY KEY (studentID,allergyID),
-    FOREIGN KEY (studentID) REFERENCES tbl_Student(studentID),
-    FOREIGN KEY (allergyID) REFERENCES tbl_Allergy(allergyID)
-);
 CREATE TABLE tbl_Student(
     studentID INTEGER PRIMARY KEY AUTOINCREMENT,
     examNumber INTEGER,
@@ -36,6 +29,21 @@ CREATE TABLE tbl_Student(
     catNonVerbal INTEGER,
     catQuantitative INTEGER,
     averagePts INTEGER
+);
+CREATE TABLE tbl_Group(
+    groupID INTEGER PRIMARY KEY AUTOINCREMENT,
+    groupName TEXT
+);
+CREATE TABLE tbl_Allergy (
+    allergyID INTEGER PRIMARY KEY AUTOINCREMENT,
+    allergyName TEXT
+);
+CREATE TABLE tbl_StudentAllergy (
+    studentID INTEGER,
+    allergyID INTEGER,
+    PRIMARY KEY (studentID,allergyID),
+    FOREIGN KEY (studentID) REFERENCES tbl_Student(studentID),
+    FOREIGN KEY (allergyID) REFERENCES tbl_Allergy(allergyID)
 );
 CREATE TABLE tbl_StudentSEN(
     senID INTEGER PRIMARY KEY AUTOINCREMENT,
@@ -55,14 +63,26 @@ CREATE TABLE tbl_Module (
     moduleID INTEGER PRIMARY KEY AUTOINCREMENT,
     moduleName TEXT
 );
+CREATE TABLE tbl_ModuleGrade(
+    moduleID INTEGER PRIMARY KEY,
+    asGrade INTEGER,
+    aGrade INTEGER,
+    bGrade INTEGER,
+    cGrade INTEGER,
+    dGrade INTEGER,
+    eGrade INTEGER,
+    fGrade INTEGER,
+    gGrade INTEGER,
+    FOREIGN KEY (moduleID) REFERENCES tbl_Module(moduleID)
+);
 CREATE TABLE tbl_HomeworkResult (
 	homeworkID	INTEGER,
 	studentID	INTEGER,
 	handed	INTEGER,
 	homeworkScore	INTEGER,
 	PRIMARY KEY(homeworkID,studentID),
-	FOREIGN KEY(homeworkID) REFERENCES tbl_Homework ( homeworkID ),
-	FOREIGN KEY(studentID) REFERENCES tbl_Student ( studentID )
+	FOREIGN KEY(homeworkID) REFERENCES tbl_Homework (homeworkID),
+	FOREIGN KEY(studentID) REFERENCES tbl_Student (studentID)
 );
 CREATE TABLE tbl_Homework(
     homeworkID INTEGER PRIMARY KEY AUTOINCREMENT,
@@ -70,13 +90,5 @@ CREATE TABLE tbl_Homework(
     homeworkName TEXT,
     homeworkMax INTEGER,
     FOREIGN KEY (moduleID) REFERENCES tbl_Module(moduleID)
-);
-CREATE TABLE tbl_Group(
-    groupID INTEGER PRIMARY KEY AUTOINCREMENT,
-    groupName TEXT
-);
-CREATE TABLE tbl_Allergy (
-    allergyID INTEGER PRIMARY KEY AUTOINCREMENT,
-    allergyName TEXT
 );
 
