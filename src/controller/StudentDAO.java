@@ -14,10 +14,14 @@ import javax.swing.JOptionPane;
 
 import model.AllergyList;
 import model.Gender;
+import model.Module;
+import model.ModuleList;
+import model.ModuleResult;
 import model.SenList;
 import model.Student;
 import model.StudentList;
 import model.UnknownAllergyException;
+import model.UnknownModuleException;
 import model.UnknownSenException;
 
 /**
@@ -119,6 +123,37 @@ public class StudentDAO {
 			e.printStackTrace();
 		}
 		return studentList;
+	}
+
+	public static void getStudentResults(StudentList students, ModuleList modules) {
+		try {
+			query = getConnection().createStatement();
+
+			String sql = "";
+			ResultSet studentResults = null;
+			for (Student s : students.getStudentsList()) {
+				sql = "SELECT moduleID, result FROM tbl_StudentModuleResult WHERE studentID=" + s.getStudentID();
+
+				studentResults = query.executeQuery(sql);
+
+				while (studentResults.next()) {
+					int moduleID = studentResults.getInt("moduleID");
+					int result = studentResults.getInt("result");
+					Module m = modules.getModuleByID(moduleID);
+
+					s.addResult(new ModuleResult(m, result));
+				}
+			}
+		}
+		catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		catch (UnknownModuleException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+
 	}
 
 	private static Connection getConnection() {

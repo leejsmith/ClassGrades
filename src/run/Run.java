@@ -19,7 +19,7 @@ public class Run {
 	public static void main(String[] args) {
 		SenList list = new SenList();
 
-		list.add(new Sen(1, "Test SEN"));
+		list.add(new Sen(1, "Test SEN", "SEN"));
 		System.out.println(list.size());
 	}
 

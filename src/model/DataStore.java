@@ -4,7 +4,9 @@
 
 package model;
 
+import controller.CourseDAO;
 import controller.GeneralDAO;
+import controller.GroupDAO;
 import controller.StudentDAO;
 
 /**
@@ -16,11 +18,18 @@ public class DataStore {
 	private StudentList	studentList;
 	private SenList		senList;
 	private AllergyList	allergyList;
+	private GroupList	groupList;
+	private CourseList	courseList;
+	private ModuleList	moduleList;
 
 	public DataStore() {
 		senList = GeneralDAO.getSenList();
 		allergyList = GeneralDAO.getAllergyList();
 		studentList = StudentDAO.getStudents(senList, allergyList);
+		groupList = GroupDAO.getGroups(studentList);
+		moduleList = GeneralDAO.getModuleList();
+		courseList = CourseDAO.getCourses(groupList, moduleList);
+		StudentDAO.getStudentResults(studentList, moduleList);
 	}
 
 	/**
@@ -66,6 +75,51 @@ public class DataStore {
 	 */
 	public void setAllergyList(AllergyList allergyList) {
 		this.allergyList = allergyList;
+	}
+
+	/**
+	 * @return the groupList
+	 */
+	public GroupList getGroupList() {
+		return groupList;
+	}
+
+	/**
+	 * @param groupList
+	 *            the groupList to set
+	 */
+	public void setGroupList(GroupList groupList) {
+		this.groupList = groupList;
+	}
+
+	/**
+	 * @return the courseList
+	 */
+	public CourseList getCourseList() {
+		return courseList;
+	}
+
+	/**
+	 * @param courseList
+	 *            the courseList to set
+	 */
+	public void setCourseList(CourseList courseList) {
+		this.courseList = courseList;
+	}
+
+	/**
+	 * @return the moduleList
+	 */
+	public ModuleList getModuleList() {
+		return moduleList;
+	}
+
+	/**
+	 * @param moduleList
+	 *            the moduleList to set
+	 */
+	public void setModuleList(ModuleList moduleList) {
+		this.moduleList = moduleList;
 	}
 
 }

@@ -11,6 +11,7 @@ import java.sql.SQLException;
 import java.sql.Statement;
 
 import model.AllergyList;
+import model.ModuleList;
 import model.SenList;
 
 /**
@@ -57,14 +58,38 @@ public class GeneralDAO {
 			while (rs.next()) {
 				int senID = rs.getInt("senID");
 				String senName = rs.getString("senName");
+				String senShort = rs.getString("senShort");
 
-				senList.add(senID, senName);
+				senList.add(senID, senName, senShort);
 			}
 		}
 		catch (SQLException e) {
 
 		}
 		return senList;
+	}
+
+	public static ModuleList getModuleList() {
+		ModuleList moduleList = new ModuleList();
+
+		String moduleSQL = "SELECT * FROM tbl_Module";
+
+		try {
+			query = getConnection().createStatement();
+
+			ResultSet rs = query.executeQuery(moduleSQL);
+
+			while (rs.next()) {
+				int moduleID = rs.getInt("moduleID");
+				String moduleName = rs.getString("moduleName");
+
+				moduleList.add(moduleID, moduleName);
+			}
+		}
+		catch (SQLException e) {
+
+		}
+		return moduleList;
 	}
 
 	private static Connection getConnection() {

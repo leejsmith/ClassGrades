@@ -74,7 +74,7 @@ public class SenList extends AbstractList<Sen> {
 		}
 	}
 
-	public boolean add(int senID, String senName) {
+	public boolean add(int senID, String senName, String senShort) {
 		if (senList.length != 1) {
 			Sen[] tmp = senList;
 			senList = new Sen[tmp.length + 1];
@@ -82,7 +82,7 @@ public class SenList extends AbstractList<Sen> {
 				senList[i] = tmp[i];
 			}
 		}
-		senList[senList.length - 1] = new Sen(senID, senName);
+		senList[senList.length - 1] = new Sen(senID, senName, senShort);
 		if (senList[senList.length - 1].getSenID() == senID) {
 			return true;
 		}

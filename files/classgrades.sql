@@ -23,7 +23,8 @@ CREATE TABLE tbl_Student(
 
 CREATE TABLE tbl_Sen(
     senID INTEGER PRIMARY KEY AUTOINCREMENT,
-    senName TEXT
+    senName TEXT,
+    senShort TEXT
 );
 
 CREATE TABLE tbl_StudentSen (
@@ -84,4 +85,13 @@ CREATE TABLE tbl_CourseModule (
     PRIMARY KEY (courseID, moduleID),
     FOREIGN KEY (moduleID) REFERENCES tbl_Module(moduleID),
     FOREIGN KEY (courseID) REFERENCES tbl_Course(courseID)
+);
+
+CREATE TABLE tbl_StudentModuleResult(
+    studentID INTEGER,
+    moduleID INTEGER,
+    result INTEGER,
+    PRIMARY KEY (studentID, moduleID),
+    FOREIGN KEY (studentID) REFERENCES tbl_Student(studentID),
+    FOREIGN KEY (moduleID) REFERENCES tbl_Module(moduleID)
 );

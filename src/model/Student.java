@@ -4,27 +4,30 @@
 
 package model;
 
+import java.util.ArrayList;
+
 /**
  * @author Lee John Smith
  *
  */
 public class Student {
 
-	private int			studentID;
-	private String		surname;
-	private String		forname;
-	private String		regGroup;
-	private Gender		gender;
-	private int			examNumber;
-	private boolean		pupilPremiun;
-	private boolean		eal;
-	private int			catMean;
-	private int			catVerbal;
-	private int			catNonVerbal;
-	private int			catQuantative;
+	private int						studentID;
+	private String					surname;
+	private String					forname;
+	private String					regGroup;
+	private Gender					gender;
+	private int						examNumber;
+	private boolean					pupilPremiun;
+	private boolean					eal;
+	private int						catMean;
+	private int						catVerbal;
+	private int						catNonVerbal;
+	private int						catQuantative;
 
-	private SenList		senStatus;
-	private AllergyList	allergyList;
+	private SenList					senStatus;
+	private AllergyList				allergyList;
+	private ArrayList<ModuleResult>	results;
 
 	/**
 	 * @param studentID
@@ -55,6 +58,7 @@ public class Student {
 		this.catVerbal = catVerbal;
 		this.catNonVerbal = catNonVerbal;
 		this.catQuantative = catQuantative;
+		this.results = new ArrayList<ModuleResult>();
 	}
 
 	/**
@@ -277,5 +281,24 @@ public class Student {
 
 	public void addAllergy(Allergy allergy) {
 		this.allergyList.add(allergy);
+	}
+
+	/**
+	 * @return the results
+	 */
+	public ArrayList<ModuleResult> getResults() {
+		return results;
+	}
+
+	/**
+	 * @param results
+	 *            the results to set
+	 */
+	public void setResults(ArrayList<ModuleResult> results) {
+		this.results = results;
+	}
+
+	public void addResult(ModuleResult mr) {
+		this.results.add(mr);
 	}
 }

@@ -79,6 +79,10 @@ public class StudentList extends AbstractList<Student> {
 		return studentList[index];
 	}
 
+	public Student[] getStudentsList() {
+		return studentList;
+	}
+
 	/*
 	 * (non-Javadoc)
 	 * 

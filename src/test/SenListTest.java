@@ -21,7 +21,7 @@ public class SenListTest {
 	@Test
 	public void testAddSEN() {
 		SenList senList = new SenList();
-		Sen testAdd = new Sen(1, "Test SEN");
+		Sen testAdd = new Sen(1, "Test SEN", "SEN");
 		senList.add(testAdd);
 		try {
 			Sen test = senList.getSenByID(1);

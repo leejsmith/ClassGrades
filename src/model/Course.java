@@ -13,6 +13,7 @@ public class Course {
 	private int			courseID;
 	private String		courseName;
 	private GroupList	groups;
+	private ModuleList	modules;
 
 	/**
 	 * 
@@ -20,10 +21,11 @@ public class Course {
 	 * @param courseName
 	 * @param students
 	 */
-	public Course(int courseID, String courseName, GroupList groups) {
+	public Course(int courseID, String courseName, GroupList groups, ModuleList modules) {
 		this.courseID = courseID;
 		this.courseName = courseName;
 		this.groups = groups;
+		this.modules = modules;
 	}
 
 	/**
@@ -35,6 +37,7 @@ public class Course {
 		this.courseID = courseID;
 		this.courseName = courseName;
 		this.groups = new GroupList();
+		this.modules = new ModuleList();
 	}
 
 	/**
@@ -76,5 +79,13 @@ public class Course {
 
 	public void addGroup(Group g) {
 		this.groups.add(g);
+	}
+
+	public ModuleList getModules() {
+		return modules;
+	}
+
+	public void addModule(Module m) {
+		this.modules.add(m);
 	}
 }
