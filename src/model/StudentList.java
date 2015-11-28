@@ -16,6 +16,7 @@ public class StudentList extends AbstractList<Student> {
 
 	public StudentList() {
 		studentList = new Student[1];
+		studentList[0] = null;
 	}
 
 	public StudentList(int size) {
@@ -35,6 +36,39 @@ public class StudentList extends AbstractList<Student> {
 		throw new UnknownStudentException();
 	}
 
+	public StudentList getStudentByName(String surname, String forename) throws StudentNotFoundException {
+		StudentList tmp = new StudentList();
+		for (Student s : studentList) {
+			if (s.getForname().contains(forename) && !contains(s)) {
+				tmp.add(s);
+			}
+			if (s.getSurname().contains(surname) && !contains(s)) {
+				tmp.add(s);
+			}
+		}
+		if (tmp.size() == 0)
+			throw new StudentNotFoundException();
+		return tmp;
+	}
+
+	public Student getStudentByExamNumber(int examNumber) {
+		for (Student s : studentList) {
+			if (s.getExamNumber() == examNumber) {
+				return s;
+			}
+		}
+		return null;
+	}
+
+	public boolean contains(Student student) {
+		for (Student s : studentList) {
+			if (s.equals(student)) {
+				return true;
+			}
+		}
+		return false;
+	}
+
 	/*
 	 * (non-Javadoc)
 	 * 
@@ -52,6 +86,9 @@ public class StudentList extends AbstractList<Student> {
 	 */
 	@Override
 	public int size() {
+		if (studentList.length == 1 && studentList[0] == null) {
+			return 0;
+		}
 		return studentList.length;
 	}
 
@@ -91,5 +128,4 @@ public class StudentList extends AbstractList<Student> {
 			return false;
 		}
 	}
-
 }

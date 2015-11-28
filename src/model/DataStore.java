@@ -21,6 +21,51 @@ public class DataStore {
 		senList = GeneralDAO.getSenList();
 		allergyList = GeneralDAO.getAllergyList();
 		studentList = StudentDAO.getStudents(senList, allergyList);
-
 	}
+
+	/**
+	 * @return the studentList
+	 */
+	public StudentList getStudentList() {
+		return studentList;
+	}
+
+	/**
+	 * @param studentList
+	 *            the studentList to set
+	 */
+	public void setStudentList(StudentList studentList) {
+		this.studentList = studentList;
+	}
+
+	/**
+	 * @return the senList
+	 */
+	public SenList getSenList() {
+		return senList;
+	}
+
+	/**
+	 * @param senList
+	 *            the senList to set
+	 */
+	public void setSenList(SenList senList) {
+		this.senList = senList;
+	}
+
+	/**
+	 * @return the allergyList
+	 */
+	public AllergyList getAllergyList() {
+		return allergyList;
+	}
+
+	/**
+	 * @param allergyList
+	 *            the allergyList to set
+	 */
+	public void setAllergyList(AllergyList allergyList) {
+		this.allergyList = allergyList;
+	}
+
 }
