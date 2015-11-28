@@ -91,4 +91,29 @@ public class AllergyList extends AbstractList<Allergy> {
 		}
 	}
 
+	/**
+	 * Compares 2 Lists of SEN status's, returns a List of SENs that are not
+	 * within the classlist.
+	 * 
+	 * @param tmpList
+	 * @return
+	 */
+	public AllergyList compare(AllergyList tmpList) {
+		AllergyList tmp = new AllergyList();
+		boolean exists = false;
+		for (Allergy classAllergy : this.allergyList) {
+			for (Allergy tmpAllergy : tmpList) {
+				if (tmpAllergy.getAllergyID() == classAllergy.getAllergyID()) {
+					exists = true;
+				}
+			}
+			if (!exists) {
+				tmp.add(classAllergy);
+			}
+			exists = false;
+		}
+
+		return tmp;
+	}
+
 }

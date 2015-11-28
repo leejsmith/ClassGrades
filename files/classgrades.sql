@@ -18,7 +18,8 @@ CREATE TABLE tbl_Student(
     catMean INTEGER,
     catVerbal INTEGER,
     catNonVerbal INTEGER,
-    catQuant INTEGER
+    catQuant INTEGER,
+    catAverage INTEGER
 );
 
 CREATE TABLE tbl_Sen(

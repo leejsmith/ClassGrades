@@ -116,7 +116,7 @@ public class StudentList extends AbstractList<Student> {
 	}
 
 	public boolean add(int studentID, String surname, String forname, String regGroup, Gender gender, int examNumber, boolean pupilPremiun, boolean eal, int catMean, int catVerbal, int catNonVerbal,
-			int catQuantative) {
+			int catQuantative, int catAverage) {
 		if (studentList.length != 1) {
 			Student[] tmp = studentList;
 			studentList = new Student[tmp.length + 1];
@@ -124,7 +124,7 @@ public class StudentList extends AbstractList<Student> {
 				studentList[i] = tmp[i];
 			}
 		}
-		studentList[studentList.length - 1] = new Student(studentID, surname, forname, regGroup, gender, examNumber, pupilPremiun, eal, catMean, catVerbal, catNonVerbal, catQuantative);
+		studentList[studentList.length - 1] = new Student(studentID, surname, forname, regGroup, gender, examNumber, pupilPremiun, eal, catMean, catVerbal, catNonVerbal, catQuantative, catAverage);
 		if (studentList[studentList.length - 1].getStudentID() == studentID) {
 			return true;
 		}

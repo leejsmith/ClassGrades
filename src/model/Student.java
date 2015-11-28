@@ -24,6 +24,7 @@ public class Student {
 	private int						catVerbal;
 	private int						catNonVerbal;
 	private int						catQuantative;
+	private int						catAverage;
 
 	private SenList					senStatus;
 	private AllergyList				allergyList;
@@ -44,7 +45,7 @@ public class Student {
 	 * @param catQuantative
 	 */
 	public Student(int studentID, String surname, String forname, String regGroup, Gender gender, int examNumber, boolean pupilPremiun, boolean eal, int catMean, int catVerbal, int catNonVerbal,
-			int catQuantative) {
+			int catQuantative, int catAverage) {
 		super();
 		this.studentID = studentID;
 		this.surname = surname;
@@ -239,6 +240,21 @@ public class Student {
 	 */
 	public void setCatQuantative(int catQuantative) {
 		this.catQuantative = catQuantative;
+	}
+
+	/**
+	 * @return the catAverage
+	 */
+	public int getCatAverage() {
+		return catAverage;
+	}
+
+	/**
+	 * @param catAverage
+	 *            the catAverage to set
+	 */
+	public void setCatAverage(int catAverage) {
+		this.catAverage = catAverage;
 	}
 
 	/**

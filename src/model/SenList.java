@@ -91,4 +91,29 @@ public class SenList extends AbstractList<Sen> {
 		}
 	}
 
+	/**
+	 * Compares 2 Lists of SEN status's, returns a List of SENs that are not
+	 * within the classlist.
+	 * 
+	 * @param tmpList
+	 * @return
+	 */
+	public SenList compare(SenList tmpList) {
+		SenList tmp = new SenList();
+		boolean exists = false;
+		for (Sen classSen : this.senList) {
+			for (Sen tmpSen : tmpList) {
+				if (tmpSen.getSenID() == classSen.getSenID()) {
+					exists = true;
+				}
+			}
+			if (!exists) {
+				tmp.add(classSen);
+			}
+			exists = false;
+		}
+
+		return tmp;
+	}
+
 }

@@ -4,19 +4,19 @@
 
 package controller;
 
-import java.sql.Connection;
-import java.sql.DriverManager;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
 
 import javax.swing.JOptionPane;
 
+import model.Allergy;
 import model.AllergyList;
 import model.Gender;
 import model.Module;
 import model.ModuleList;
 import model.ModuleResult;
+import model.Sen;
 import model.SenList;
 import model.Student;
 import model.StudentList;
@@ -52,7 +52,7 @@ public class StudentDAO {
 		String allergySQL;
 
 		try {
-			query = getConnection().createStatement();
+			query = Database.getConnection().createStatement();
 
 			ResultSet studentSet = query.executeQuery(studentSQL);
 
@@ -65,10 +65,11 @@ public class StudentDAO {
 				int examNumber = studentSet.getInt("examNumber");
 				boolean pupilPremium = studentSet.getInt("pupilPremium") == 1 ? true : false;
 				boolean eal = studentSet.getInt("eal") == 1 ? true : false;
-				int catMean = studentSet.getInt("catMean");
-				int catVerbal = studentSet.getInt("catVerbal");
-				int catNonVerbal = studentSet.getInt("catNonVerbal");
-				int catQuant = studentSet.getInt("catQuant");
+				String catMeanIn = studentSet.getString("catMean");
+				String catVerbalIn = studentSet.getString("catVerbal");
+				String catNonVerbalIn = studentSet.getString("catNonVerbal");
+				String catQuantIn = studentSet.getString("catQuant");
+				String catAverageIn = studentSet.getString("catAverage");
 
 				Gender gender;
 
@@ -82,22 +83,15 @@ public class StudentDAO {
 					gender = Gender.OTHER;
 				}
 
-				Student newStudent = new Student(studentID, surname, forname, regGroup, gender, examNumber, pupilPremium, eal, catMean, catVerbal, catNonVerbal, catQuant);
+				int catMean = catMeanIn.equals("") ? 0 : Integer.parseInt(catMeanIn);
+				int catVerbal = catVerbalIn.equals("") ? 0 : Integer.parseInt(catVerbalIn);
+				int catNonVerbal = catNonVerbalIn.equals("") ? 0 : Integer.parseInt(catNonVerbalIn);
+				int catQuant = catQuantIn.equals("") ? 0 : Integer.parseInt(catQuantIn);
+				int catAverage = catAverageIn.equals("") ? 0 : Integer.parseInt(catAverageIn);
 
-				senSQL = "SELECT * FROM tbl_StudentSen WHERE studentID=" + studentID;
+				Student newStudent = new Student(studentID, surname, forname, regGroup, gender, examNumber, pupilPremium, eal, catMean, catVerbal, catNonVerbal, catQuant, catAverage);
 
-				ResultSet senSet = query.executeQuery(senSQL);
-				int senID;
-				while (senSet.next()) {
-					senID = senSet.getInt("senID");
-					try {
-						newStudent.addSenStatus(senList.getSenByID(senID));
-					}
-					catch (UnknownSenException e) {
-						JOptionPane.showMessageDialog(null,
-								"Error importing Student SEN Information. Speak to System Administrator. Quote the Following \"Student SEN Import Error - Student" + studentID + "\" ");
-					}
-				}
+				newStudent.setSenStatus(getStudentSenList(newStudent, senList));
 
 				allergySQL = "SELECT * FROM tbl_StudentAllergy WHERE studentID=" + studentID;
 
@@ -127,7 +121,7 @@ public class StudentDAO {
 
 	public static void getStudentResults(StudentList students, ModuleList modules) {
 		try {
-			query = getConnection().createStatement();
+			query = Database.getConnection().createStatement();
 
 			String sql = "";
 			ResultSet studentResults = null;
@@ -153,19 +147,181 @@ public class StudentDAO {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
+	}
+
+	private static SenList getStudentSenList(Student s, SenList fullSenList) {
+		String senSQL = "SELECT * FROM tbl_StudentSen WHERE studentID=" + s.getStudentID();
+		SenList senList = new SenList();
+
+		ResultSet senSet;
+		try {
+			senSet = query.executeQuery(senSQL);
+
+			int senID;
+			while (senSet.next()) {
+				senID = senSet.getInt("senID");
+				try {
+					senList.add(fullSenList.getSenByID(senID));
+				}
+				catch (UnknownSenException e) {
+					JOptionPane.showMessageDialog(null,
+							"Error importing Student SEN Information. Speak to System Administrator. Quote the Following \"Student SEN Import Error - Student" + s.getStudentID() + "\" ");
+				}
+			}
+			return senList;
+		}
+		catch (SQLException e1) {
+			// TODO Auto-generated catch block
+			e1.printStackTrace();
+		}
+		return null;
 
 	}
 
-	private static Connection getConnection() {
-		Connection c = null;
+	private static AllergyList getStudentAllergyList(Student s, AllergyList fullAllergyList) {
+		String allergySQL = "SELECT * FROM tbl_StudentAllergy WHERE studentID=" + s.getStudentID();
+		AllergyList allergyList = new AllergyList();
+
+		ResultSet allergySet;
 		try {
-			Class.forName("org.sqlite.JDBC");
-			c = DriverManager.getConnection("jdbc:sqlite:./files/classgrades.sqlite3");
+			allergySet = query.executeQuery(allergySQL);
+
+			int allergyID;
+			while (allergySet.next()) {
+				allergyID = allergySet.getInt("allergyID");
+				try {
+					allergyList.add(fullAllergyList.getAllergyByID(allergyID));
+				}
+				catch (UnknownAllergyException e) {
+					JOptionPane.showMessageDialog(null,
+							"Error importing Student Allergy Information. Speak to System Administrator. Quote the Following \"Student Allergy Import Error - Student" + s.getStudentID() + "\" ");
+				}
+			}
+			return allergyList;
 		}
-		catch (Exception e) {
-			System.err.println("Failed to connect to database, System will now exit");
+		catch (SQLException e1) {
+			// TODO Auto-generated catch block
+			e1.printStackTrace();
+		}
+		return null;
+
+	}
+
+	public static boolean updateStudentInformation(Student s) {
+		boolean retVal = false;
+
+		try {
+			query = Database.getConnection().createStatement();
+
+			String sql;
+			String update = "UPDATE tbl_Student ";
+			String set = "SET (" + "surname='" + s.getSurname() + "', forname='" + s.getForname() + "', regGroup=" + s.getRegGroup() + "', gender=" + s.getGender().name() + ", examNumber="
+					+ s.getExamNumber() + ", pupilPremiun=" + (s.isPupilPremiun() ? 1 : 0) + ", eal=" + (s.isEal() ? 1 : 0) + ", catMean=" + s.getCatMean() + ", catVerbal=" + s.getCatVerbal()
+					+ ", catNonVerbal=" + s.getCatNonVerbal() + ", catQuant=" + s.getCatQuantative() + ", catAverage=" + s.getCatAverage() + ") ";
+			String where = " WHERE studentID=" + s.getStudentID();
+			sql = update + set + where;
+			retVal = query.execute(sql);
+
+			updateSENStatus(s);
+			updateAllergyStatus(s);
+
+		}
+		catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
 		}
 
-		return c;
+		return retVal;
+
+	}
+
+	private static void updateSENStatus(Student s) {
+		boolean retVal;
+
+		SenList tmpDBCompare = getStudentSenList(s, GeneralDAO.getSenList());
+
+		SenList deleteSEN = new SenList();
+		SenList insertSEN = new SenList();
+
+		// TEST FOR DELETE SENS
+		deleteSEN = tmpDBCompare.compare(s.getSenStatus());
+
+		// TEST FOR INSERT SENS
+		insertSEN = s.getSenStatus().compare(tmpDBCompare);
+
+		try {
+			query = Database.getConnection().createStatement();
+			String sql;
+
+			for (Sen senDel : deleteSEN) {
+				sql = "DELETE FROM tbl_StudentSEN WHERE studentID=" + s.getStudentID() + " AND senID=" + senDel.getSenID();
+				retVal = query.execute(sql);
+				if (!retVal) {
+					throw new DatabaseQueryException("Error on Removing SEN: " + senDel.getSenName() + " for Student: " + s.getStudentID());
+				}
+			}
+
+			for (Sen senIns : insertSEN) {
+				sql = "INSERT INTO tbl_StudentSen (studentID, senID) VALUES (" + s.getStudentID() + "," + senIns.getSenID() + ")";
+				retVal = query.execute(sql);
+				if (!retVal) {
+					throw new DatabaseQueryException("Error on Removing SEN: " + senIns.getSenName() + " for Student: " + s.getStudentID());
+				}
+			}
+
+		}
+		catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		catch (DatabaseQueryException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+	}
+
+	private static void updateAllergyStatus(Student s) {
+		boolean retVal;
+
+		AllergyList tmpDBCompare = getStudentAllergyList(s, GeneralDAO.getAllergyList());
+
+		AllergyList deleteAllergy = new AllergyList();
+		AllergyList insertAllergy = new AllergyList();
+
+		// TEST FOR DELETE AllergyS
+		deleteAllergy = tmpDBCompare.compare(s.getAllergyList());
+
+		// TEST FOR INSERT AllergyS
+		insertAllergy = s.getAllergyList().compare(tmpDBCompare);
+
+		try {
+			query = Database.getConnection().createStatement();
+			String sql;
+
+			for (Allergy allergyDel : deleteAllergy) {
+				sql = "DELETE FROM tbl_StudentAllergy WHERE studentID=" + s.getStudentID() + " AND allergyID=" + allergyDel.getAllergyID();
+				retVal = query.execute(sql);
+				if (!retVal) {
+					throw new DatabaseQueryException("Error on Removing Allergy: " + allergyDel.getAllergyName() + " for Student: " + s.getStudentID());
+				}
+			}
+
+			for (Allergy allergyIns : insertAllergy) {
+				sql = "INSERT INTO tbl_StudentAllergy (studentID, allergyID) VALUES (" + s.getStudentID() + "," + allergyIns.getAllergyID() + ")";
+				retVal = query.execute(sql);
+				if (!retVal) {
+					throw new DatabaseQueryException("Error on Removing Allergy: " + allergyIns.getAllergyName() + " for Student: " + s.getStudentID());
+				}
+			}
+
+		}
+		catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		catch (DatabaseQueryException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 	}
 }

@@ -4,8 +4,6 @@
 
 package controller;
 
-import java.sql.Connection;
-import java.sql.DriverManager;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
@@ -28,7 +26,7 @@ public class GeneralDAO {
 		String allergySQL = "SELECT * FROM tbl_Allergy";
 
 		try {
-			query = getConnection().createStatement();
+			query = Database.getConnection().createStatement();
 
 			ResultSet rs = query.executeQuery(allergySQL);
 
@@ -51,7 +49,7 @@ public class GeneralDAO {
 		String senSQL = "SELECT * FROM tbl_Sen";
 
 		try {
-			query = getConnection().createStatement();
+			query = Database.getConnection().createStatement();
 
 			ResultSet rs = query.executeQuery(senSQL);
 
@@ -75,7 +73,7 @@ public class GeneralDAO {
 		String moduleSQL = "SELECT * FROM tbl_Module";
 
 		try {
-			query = getConnection().createStatement();
+			query = Database.getConnection().createStatement();
 
 			ResultSet rs = query.executeQuery(moduleSQL);
 
@@ -91,18 +89,4 @@ public class GeneralDAO {
 		}
 		return moduleList;
 	}
-
-	private static Connection getConnection() {
-		Connection c = null;
-		try {
-			Class.forName("org.sqlite.JDBC");
-			c = DriverManager.getConnection("jdbc:sqlite:./files/classgrades.sqlite3");
-		}
-		catch (Exception e) {
-			System.err.println("Failed to connect to database, System will now exit");
-		}
-
-		return c;
-	}
-
 }

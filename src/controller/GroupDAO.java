@@ -4,8 +4,6 @@
 
 package controller;
 
-import java.sql.Connection;
-import java.sql.DriverManager;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
@@ -29,7 +27,7 @@ public class GroupDAO {
 		String groupSQL = "SELECT * FROM tbl_Groups";
 		String studentGroupSQL = "";
 		try {
-			query = getConnection().createStatement();
+			query = Database.getConnection().createStatement();
 
 			ResultSet groupRS = query.executeQuery(groupSQL);
 			ResultSet studentsRS = null;
@@ -62,18 +60,5 @@ public class GroupDAO {
 
 		return groups;
 
-	}
-
-	private static Connection getConnection() {
-		Connection c = null;
-		try {
-			Class.forName("org.sqlite.JDBC");
-			c = DriverManager.getConnection("jdbc:sqlite:./files/classgrades.sqlite3");
-		}
-		catch (Exception e) {
-			System.err.println("Failed to connect to database, System will now exit");
-		}
-
-		return c;
 	}
 }
