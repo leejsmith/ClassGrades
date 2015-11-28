@@ -12,7 +12,7 @@ public class Course {
 
 	private int			courseID;
 	private String		courseName;
-	private StudentList	students;
+	private GroupList	groups;
 
 	/**
 	 * 
@@ -20,10 +20,10 @@ public class Course {
 	 * @param courseName
 	 * @param students
 	 */
-	public Course(int courseID, String courseName, StudentList students) {
+	public Course(int courseID, String courseName, GroupList groups) {
 		this.courseID = courseID;
 		this.courseName = courseName;
-		this.students = students;
+		this.groups = groups;
 	}
 
 	/**
@@ -34,7 +34,7 @@ public class Course {
 	public Course(int courseID, String courseName) {
 		this.courseID = courseID;
 		this.courseName = courseName;
-		this.students = new StudentList(1);
+		this.groups = new GroupList();
 	}
 
 	/**
@@ -70,7 +70,11 @@ public class Course {
 	/**
 	 * @return the students
 	 */
-	public StudentList getStudents() {
-		return students;
+	public GroupList getGroups() {
+		return groups;
+	}
+
+	public void addGroup(Group g) {
+		this.groups.add(g);
 	}
 }

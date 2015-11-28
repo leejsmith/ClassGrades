@@ -1,3 +1,11 @@
+CREATE TABLE tbl_Users(
+    userID INTEGER PRIMARY KEY AUTOINCREMENT,
+    userName TEXT,
+    salt TEXT,
+    passwordSec TEXT,
+    admin INTEGER
+);
+
 CREATE TABLE tbl_Student(
     studentID INTEGER PRIMARY KEY AUTOINCREMENT,
     surname TEXT,
@@ -63,4 +71,17 @@ CREATE TABLE tbl_CourseGroup(
     PRIMARY KEY (courseID, groupID),
     FOREIGN KEY (courseID) REFERENCES tbl_Course(courseID),
     FOREIGN KEY (groupID) REFERENCES tbl_Group(groupID)
+);
+
+CREATE TABLE tbl_Module(
+    moduleID INTEGER PRIMARY KEY AUTOINCREMENT,
+    moduleName TEXT
+);
+
+CREATE TABLE tbl_CourseModule (
+    courseID INTEGER,
+    moduleID INTEGER,
+    PRIMARY KEY (courseID, moduleID),
+    FOREIGN KEY (moduleID) REFERENCES tbl_Module(moduleID),
+    FOREIGN KEY (courseID) REFERENCES tbl_Course(courseID)
 );
