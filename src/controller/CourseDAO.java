@@ -26,7 +26,7 @@ public class CourseDAO {
 	public static CourseList getCourses(GroupList groups, ModuleList modules) {
 		CourseList courses = new CourseList();
 
-		String courseSQL = "SELECT * FROM tbl_Courses";
+		String courseSQL = "SELECT * FROM tbl_Course";
 		String groupCourseSQL = "";
 		String moduleSQL = "";
 		try {

@@ -24,7 +24,7 @@ public class GroupDAO {
 	public static GroupList getGroups(StudentList students) {
 		GroupList groups = new GroupList();
 
-		String groupSQL = "SELECT * FROM tbl_Groups";
+		String groupSQL = "SELECT * FROM tbl_Group";
 		String studentGroupSQL = "";
 		try {
 			query = Database.getConnection().createStatement();

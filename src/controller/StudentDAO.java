@@ -59,7 +59,7 @@ public class StudentDAO {
 			while (studentSet.next()) {
 				int studentID = studentSet.getInt("studentID");
 				String surname = studentSet.getString("surname");
-				String forname = studentSet.getString("forname");
+				String forname = studentSet.getString("forename");
 				String regGroup = studentSet.getString("regGroup");
 				String genderIn = studentSet.getString("gender");
 				int examNumber = studentSet.getInt("examNumber");
@@ -127,7 +127,7 @@ public class StudentDAO {
 			ResultSet studentResults = null;
 			for (Student s : students.getStudentsList()) {
 				sql = "SELECT moduleID, result FROM tbl_StudentModuleResult WHERE studentID=" + s.getStudentID();
-
+				System.out.println(sql);
 				studentResults = query.executeQuery(sql);
 
 				while (studentResults.next()) {

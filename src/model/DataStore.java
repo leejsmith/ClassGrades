@@ -23,6 +23,10 @@ public class DataStore {
 	private ModuleList	moduleList;
 
 	public DataStore() {
+		this.updateDatastore();
+	}
+
+	public void updateDatastore() {
 		senList = GeneralDAO.getSenList();
 		allergyList = GeneralDAO.getAllergyList();
 		studentList = StudentDAO.getStudents(senList, allergyList);

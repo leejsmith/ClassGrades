@@ -4,8 +4,7 @@
 
 package run;
 
-import model.Sen;
-import model.SenList;
+import model.DataStore;
 
 /**
  * @author Lee John Smith
@@ -17,10 +16,7 @@ public class Run {
 	 * @param args
 	 */
 	public static void main(String[] args) {
-		SenList list = new SenList();
-
-		list.add(new Sen(1, "Test SEN", "SEN"));
-		System.out.println(list.size());
+		DataStore ds = new DataStore();
 	}
 
 }
