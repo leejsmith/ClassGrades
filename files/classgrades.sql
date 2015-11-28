@@ -68,7 +68,7 @@ CREATE TABLE tbl_Course(
 
 CREATE TABLE tbl_CourseGroup(
     courseID INTEGER,
-    groupID INTeGER,
+    groupID INTEGER,
     PRIMARY KEY (courseID, groupID),
     FOREIGN KEY (courseID) REFERENCES tbl_Course(courseID),
     FOREIGN KEY (groupID) REFERENCES tbl_Group(groupID)
