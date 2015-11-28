@@ -38,3 +38,29 @@ CREATE TABLE tbl_StudentAllergy(
     FOREIGN KEY (studentID) REFERENCES tbl_Student(studentID),
     FOREIGN KEY (allergyID) REFERENCES tbl_Allergy(allergyID)
 );
+
+CREATE TABLE tbl_Group(
+    groupID INTEGER PRIMARY KEY AUTOINCREMENT,
+    groupName TEXT
+);
+
+CREATE TABLE tbl_StudentGroup(
+    groupID INTEGER,
+    studentID INTEGER,
+    PRIMARY KEY (groupID, studentID),
+    FOREIGN KEY (groupID) REFERENCES tbl_Group(groupID),
+    FOREIGN KEY (studentID) REFERENCES tbl_Student(studentID)
+);
+
+CREATE TABLE tbl_Course(
+    courseID INTEGER PRIMARY KEY AUTOINCREMENT,
+    courseName TEXT
+);
+
+CREATE TABLE tbl_CourseGroup(
+    courseID INTEGER,
+    groupID INTeGER,
+    PRIMARY KEY (courseID, groupID),
+    FOREIGN KEY (courseID) REFERENCES tbl_Course(courseID),
+    FOREIGN KEY (groupID) REFERENCES tbl_Group(groupID)
+);

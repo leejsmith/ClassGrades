@@ -33,7 +33,7 @@ public class GroupList extends AbstractList<Group> {
 				return s;
 			}
 		}
-		throw new UnknownGroupException();
+		throw new UnknownGroupException("Unknown Group");
 	}
 
 	/*
