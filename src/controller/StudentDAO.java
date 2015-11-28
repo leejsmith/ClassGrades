@@ -324,4 +324,35 @@ public class StudentDAO {
 			e.printStackTrace();
 		}
 	}
+
+	public static boolean deleteStudent(Student s) {
+		boolean sen = false;
+		boolean allergy = false;
+		boolean group = false;
+		boolean result = false;
+		boolean student = false;
+
+		try {
+			query = Database.getConnection().createStatement();
+
+			String senSQL = "DELETE FROM tbl_StudentSen WHERE studentID=" + s.getStudentID();
+			String allergySQL = "DELETE FROM tbl_StudentAllergy WHERE studentID=" + s.getStudentID();
+			String groupSQL = "DELETE FROM tbl_StudentGroup WHERE studentID=" + s.getStudentID();
+			String resultSQL = "DELETE FROM tbl_StudentModuleResult WHERE studentID=" + s.getStudentID();
+			String studentSQL = "DELETE FROM tbl_Student WHERE studentID=" + s.getStudentID();
+
+			sen = query.execute(senSQL);
+			allergy = query.execute(allergySQL);
+			group = query.execute(groupSQL);
+			result = query.execute(resultSQL);
+			student = query.execute(studentSQL);
+
+		}
+		catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+
+		return sen && allergy && group && result && student;
+	}
 }
