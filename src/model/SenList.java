@@ -105,6 +105,7 @@ public class SenList extends AbstractList<Sen> {
 			for (Sen tmpSen : tmpList) {
 				if (tmpSen.getSenID() == classSen.getSenID()) {
 					exists = true;
+					break;
 				}
 			}
 			if (!exists) {
@@ -115,5 +116,4 @@ public class SenList extends AbstractList<Sen> {
 
 		return tmp;
 	}
-
 }
