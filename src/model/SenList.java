@@ -4,13 +4,13 @@
 
 package model;
 
-import java.util.AbstractList;
+import java.util.ArrayList;
 
 /**
  * @author Lee John Smith
  *
  */
-public class SenList extends AbstractList<Sen> {
+public class SenList extends ArrayList<Sen> {
 
 	Sen[] senList;
 
@@ -57,13 +57,12 @@ public class SenList extends AbstractList<Sen> {
 
 	@Override
 	public boolean add(Sen sen) {
-		if (senList.length != 1) {
-			Sen[] tmp = senList;
-			senList = new Sen[tmp.length + 1];
-			for (int i = 0; i < tmp.length; i++) {
-				senList[i] = tmp[i];
-			}
+		Sen[] tmp = this.senList;
+		this.senList = new Sen[tmp.length + 1];
+		for (int i = 0; i < tmp.length; i++) {
+			this.senList[i] = tmp[i];
 		}
+
 		senList[senList.length - 1] = sen;
 
 		if (senList[senList.length - 1].getSenID() == sen.getSenID()) {
@@ -75,13 +74,15 @@ public class SenList extends AbstractList<Sen> {
 	}
 
 	public boolean add(int senID, String senName, String senShort) {
-		if (senList.length != 1) {
-			Sen[] tmp = senList;
-			senList = new Sen[tmp.length + 1];
-			for (int i = 0; i < tmp.length; i++) {
-				senList[i] = tmp[i];
-			}
+
+		Sen[] tmp = this.senList;
+		senList = new Sen[tmp.length + 1];
+		for (int i = 0; i < tmp.length; i++) {
+			senList[i] = tmp[i];
 		}
+
+		senList[0] = new Sen(senID, senName, senShort);
+
 		senList[senList.length - 1] = new Sen(senID, senName, senShort);
 		if (senList[senList.length - 1].getSenID() == senID) {
 			return true;
@@ -100,16 +101,17 @@ public class SenList extends AbstractList<Sen> {
 	 */
 	public SenList compare(SenList tmpList) {
 		SenList tmp = new SenList();
+		System.out.println("SenList Size: " + senList.length + "     tmpList Size: " + tmpList.size());
 		boolean exists = false;
-		for (Sen classSen : this.senList) {
-			for (Sen tmpSen : tmpList) {
-				if (tmpSen.getSenID() == classSen.getSenID()) {
+		for (int i = 0; i < senList.length; i++) {
+			for (int j = 0; j < tmpList.size(); i++) {
+				if (tmpList.get(j).getSenID() == senList[i].getSenID()) {
 					exists = true;
-					break;
+					System.out.println("tmp: " + tmpList.get(j).getSenID() + "   class:" + senList[i].getSenID());
 				}
 			}
 			if (!exists) {
-				tmp.add(classSen);
+				tmp.add(senList[i]);
 			}
 			exists = false;
 		}
