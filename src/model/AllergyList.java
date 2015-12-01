@@ -4,26 +4,26 @@
 
 package model;
 
-import java.util.AbstractList;
+import java.util.ArrayList;
 
 /**
  * @author Lee John Smith
  *
  */
-public class AllergyList extends AbstractList<Allergy> {
+public class AllergyList {
 
-	Allergy[] allergyList;
+	private ArrayList<Allergy> allergyList;
 
 	public AllergyList() {
-		allergyList = new Allergy[1];
+		this.allergyList = new ArrayList<Allergy>();
 	}
 
-	public AllergyList(int size) {
-		allergyList = new Allergy[size];
-	}
-
-	public AllergyList(Allergy[] list) {
+	public AllergyList(ArrayList<Allergy> list) {
 		this.allergyList = list;
+	}
+
+	public ArrayList<Allergy> getList() {
+		return allergyList;
 	}
 
 	public Allergy getAllergyByID(int id) throws UnknownAllergyException {
@@ -32,88 +32,45 @@ public class AllergyList extends AbstractList<Allergy> {
 				return s;
 			}
 		}
-		throw new UnknownAllergyException();
+		throw new UnknownAllergyException("No Allergy Found");
 	}
 
-	/*
-	 * (non-Javadoc)
-	 * 
-	 * @see java.util.AbstractList#get(int)
-	 */
-	@Override
 	public Allergy get(int index) {
-		return allergyList[index];
+		return allergyList.get(index);
 	}
 
-	/*
-	 * (non-Javadoc)
-	 * 
-	 * @see java.util.AbstractCollection#size()
-	 */
-	@Override
+	public void add(Allergy allergy) {
+		this.allergyList.add(allergy);
+	}
+
+	public void add(int id, String name) {
+		this.allergyList.add(new Allergy(id, name));
+	}
+
 	public int size() {
-		return allergyList.length;
+		return this.allergyList.size();
 	}
 
-	@Override
-	public boolean add(Allergy allergy) {
-		if (allergyList.length != 1) {
-			Allergy[] tmp = allergyList;
-			allergyList = new Allergy[tmp.length + 1];
-			for (int i = 0; i < tmp.length; i++) {
-				allergyList[i] = tmp[i];
-			}
-		}
-		allergyList[allergyList.length - 1] = allergy;
-
-		if (allergyList[allergyList.length - 1].getAllergyID() == allergy.getAllergyID()) {
-			return true;
-		}
-		else {
-			return false;
-		}
-	}
-
-	public boolean add(int allergyID, String allergyName) {
-		if (allergyList.length != 1) {
-			Allergy[] tmp = allergyList;
-			allergyList = new Allergy[tmp.length + 1];
-			for (int i = 0; i < tmp.length; i++) {
-				allergyList[i] = tmp[i];
-			}
-		}
-		allergyList[allergyList.length - 1] = new Allergy(allergyID, allergyName);
-		if (allergyList[allergyList.length - 1].getAllergyID() == allergyID) {
-			return true;
-		}
-		else {
-			return false;
-		}
-	}
-
-	/**
-	 * Compares 2 Lists of SEN status's, returns a List of SENs that are not
-	 * within the classlist.
-	 * 
-	 * @param tmpList
-	 * @return
-	 */
 	public AllergyList compare(AllergyList tmpList) {
-		AllergyList tmp = new AllergyList();
-		boolean exists = false;
-		for (Allergy classAllergy : this.allergyList) {
-			for (Allergy tmpAllergy : tmpList) {
-				if (tmpAllergy.getAllergyID() == classAllergy.getAllergyID()) {
-					exists = true;
+		AllergyList retList = new AllergyList();
+
+		for (Allergy b : tmpList.getList()) {
+			if (!allergyExists(b)) {
+				if (!retList.allergyExists(b)) {
+					retList.add(b);
 				}
 			}
-			if (!exists) {
-				tmp.add(classAllergy);
-			}
-			exists = false;
 		}
-
-		return tmp;
+		return retList;
 	}
 
+	public boolean allergyExists(Allergy s) {
+		for (Allergy list : allergyList) {
+			if (list.getAllergyID() == s.getAllergyID()) {
+				System.out.println("Exists");
+				return true;
+			}
+		}
+		return false;
+	}
 }

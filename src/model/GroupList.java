@@ -5,25 +5,21 @@
 package model;
 
 import java.rmi.activation.UnknownGroupException;
-import java.util.AbstractList;
+import java.util.ArrayList;
 
 /**
  * @author Lee John Smith
  *
  */
-public class GroupList extends AbstractList<Group> {
+public class GroupList {
 
-	Group[] groupList;
+	ArrayList<Group> groupList;
 
 	public GroupList() {
-		groupList = new Group[1];
+		groupList = new ArrayList<Group>();
 	}
 
-	public GroupList(int size) {
-		groupList = new Group[size];
-	}
-
-	public GroupList(Group[] list) {
+	public GroupList(ArrayList<Group> list) {
 		this.groupList = list;
 	}
 
@@ -36,60 +32,23 @@ public class GroupList extends AbstractList<Group> {
 		throw new UnknownGroupException("Unknown Group");
 	}
 
-	/*
-	 * (non-Javadoc)
-	 * 
-	 * @see java.util.AbstractList#get(int)
-	 */
-	@Override
 	public Group get(int index) {
-		return groupList[index];
+		return groupList.get(index);
 	}
 
-	/*
-	 * (non-Javadoc)
-	 * 
-	 * @see java.util.AbstractCollection#size()
-	 */
-	@Override
 	public int size() {
-		return groupList.length;
+		return groupList.size();
 	}
 
-	@Override
 	public boolean add(Group group) {
-		if (groupList.length != 1) {
-			Group[] tmp = groupList;
-			groupList = new Group[tmp.length + 1];
-			for (int i = 0; i < tmp.length; i++) {
-				groupList[i] = tmp[i];
-			}
-		}
-		groupList[groupList.length - 1] = group;
-
-		if (groupList[groupList.length - 1].getGroupID() == group.getGroupID()) {
-			return true;
-		}
-		else {
-			return false;
-		}
+		this.groupList.add(group);
+		return groupList.contains(group);
 	}
 
 	public boolean add(int groupID, String groupName) {
-		if (groupList.length != 1) {
-			Group[] tmp = groupList;
-			groupList = new Group[tmp.length + 1];
-			for (int i = 0; i < tmp.length; i++) {
-				groupList[i] = tmp[i];
-			}
-		}
-		groupList[groupList.length - 1] = new Group(groupID, groupName);
-		if (groupList[groupList.length - 1].getGroupID() == groupID) {
-			return true;
-		}
-		else {
-			return false;
-		}
+		Group g = new Group(groupID, groupName);
+		this.groupList.add(g);
+		return groupList.contains(g);
 	}
 
 }

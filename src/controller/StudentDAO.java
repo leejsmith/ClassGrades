@@ -43,7 +43,7 @@ public class StudentDAO {
 	 * @return Complete list of Students and associated information.
 	 */
 	public static StudentList getStudents(SenList senList, AllergyList allergyList) {
-		StudentList studentList = new StudentList(1);
+		StudentList studentList = new StudentList();
 
 		query = null;
 
@@ -244,16 +244,16 @@ public class StudentDAO {
 		SenList insertSEN = new SenList();
 
 		// TEST FOR DELETE SENS
-		deleteSEN = tmpDBCompare.compare(s.getSenStatus());
+		deleteSEN = s.getSenStatus().compare(tmpDBCompare);
 
 		// TEST FOR INSERT SENS
-		insertSEN = s.getSenStatus().compare(tmpDBCompare);
+		insertSEN = tmpDBCompare.compare(s.getSenStatus());
 
 		try {
 			query = Database.getConnection().createStatement();
 			String sql;
 
-			for (Sen senDel : deleteSEN) {
+			for (Sen senDel : deleteSEN.getList()) {
 				sql = "DELETE FROM tbl_StudentSEN WHERE studentID=" + s.getStudentID() + " AND senID=" + senDel.getSenID();
 				retVal = query.execute(sql);
 				if (!retVal) {
@@ -261,7 +261,7 @@ public class StudentDAO {
 				}
 			}
 
-			for (Sen senIns : insertSEN) {
+			for (Sen senIns : insertSEN.getList()) {
 				sql = "INSERT INTO tbl_StudentSen (studentID, senID) VALUES (" + s.getStudentID() + "," + senIns.getSenID() + ")";
 				retVal = query.execute(sql);
 				if (!retVal) {
@@ -289,16 +289,16 @@ public class StudentDAO {
 		AllergyList insertAllergy = new AllergyList();
 
 		// TEST FOR DELETE AllergyS
-		deleteAllergy = tmpDBCompare.compare(s.getAllergyList());
+		deleteAllergy = s.getAllergyList().compare(tmpDBCompare);
 
 		// TEST FOR INSERT AllergyS
-		insertAllergy = s.getAllergyList().compare(tmpDBCompare);
+		insertAllergy = tmpDBCompare.compare(s.getAllergyList());
 
 		try {
 			query = Database.getConnection().createStatement();
 			String sql;
 
-			for (Allergy allergyDel : deleteAllergy) {
+			for (Allergy allergyDel : deleteAllergy.getList()) {
 				sql = "DELETE FROM tbl_StudentAllergy WHERE studentID=" + s.getStudentID() + " AND allergyID=" + allergyDel.getAllergyID();
 				retVal = query.execute(sql);
 				if (!retVal) {
@@ -306,7 +306,7 @@ public class StudentDAO {
 				}
 			}
 
-			for (Allergy allergyIns : insertAllergy) {
+			for (Allergy allergyIns : insertAllergy.getList()) {
 				sql = "INSERT INTO tbl_StudentAllergy (studentID, allergyID) VALUES (" + s.getStudentID() + "," + allergyIns.getAllergyID() + ")";
 				retVal = query.execute(sql);
 				if (!retVal) {

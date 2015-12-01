@@ -17,31 +17,39 @@ public class Run {
 	 * @param args
 	 */
 	public static void main(String[] args) {
-		SenList one = new SenList();
-		SenList two = new SenList();
-
-		one.add(1, "SenOne", "S1");
-		one.add(3, "SenThree", "S3");
-		one.add(4, "SenFour", "S4");
-
-		two.add(1, "SenOne", "S1");
-		two.add(2, "SenTwo", "S2");
-		two.add(3, "SenThree", "S3");
-		two.add(5, "SenFive", "S5");
-
-		System.out.println(one.size());
-		System.out.println(two.size());
-
-		SenList delete = one.compare(two);
-		SenList insert = two.compare(one);
-
-		for (Sen s : one) {
-			System.out.println("DELETE SEN:" + s.getSenID());
-		}
-
-		for (Sen s : two) {
-			System.out.println("INSERT SEN:" + s.getSenID());
-		}
+		senStudentDBCheck();
 	}
 
+	private static void senStudentDBCheck() {
+		SenList old = new SenList();
+		SenList newL = new SenList();
+
+		old.add(1, "SenOne", "S1");
+		old.add(3, "SenThree", "S3");
+		old.add(4, "SenFour", "S4");
+
+		newL.add(1, "SenOne", "S1");
+		newL.add(2, "SenTwo", "S2");
+		newL.add(3, "SenThree", "S3");
+		newL.add(5, "SenFive", "S5");
+
+		for (Sen a : old.getList()) {
+			System.out.println("OLD: " + a.getSenID());
+		}
+
+		for (Sen b : newL.getList()) {
+			System.out.println("NEW: " + b.getSenID());
+		}
+
+		SenList delete = newL.compare(old);
+		SenList insert = old.compare(newL);
+
+		for (Sen a : delete.getList()) {
+			System.out.println("DELETE SEN:" + a.getSenID());
+		}
+
+		for (Sen b : insert.getList()) {
+			System.out.println("INSERT SEN:" + b.getSenID());
+		}
+	}
 }

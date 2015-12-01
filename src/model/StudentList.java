@@ -4,26 +4,21 @@
 
 package model;
 
-import java.util.AbstractList;
+import java.util.ArrayList;
 
 /**
  * @author Lee John Smith
  *
  */
-public class StudentList extends AbstractList<Student> {
+public class StudentList {
 
-	Student[] studentList;
+	ArrayList<Student> studentList;
 
 	public StudentList() {
-		studentList = new Student[1];
-		studentList[0] = null;
+		this.studentList = new ArrayList<Student>();
 	}
 
-	public StudentList(int size) {
-		studentList = new Student[size];
-	}
-
-	public StudentList(Student[] list) {
+	public StudentList(ArrayList<Student> list) {
 		this.studentList = list;
 	}
 
@@ -51,13 +46,13 @@ public class StudentList extends AbstractList<Student> {
 		return tmp;
 	}
 
-	public Student getStudentByExamNumber(int examNumber) {
+	public Student getStudentByExamNumber(int examNumber) throws UnknownStudentException {
 		for (Student s : studentList) {
 			if (s.getExamNumber() == examNumber) {
 				return s;
 			}
 		}
-		return null;
+		throw new UnknownStudentException("Student Not Found");
 	}
 
 	public boolean contains(Student student) {
@@ -69,67 +64,48 @@ public class StudentList extends AbstractList<Student> {
 		return false;
 	}
 
-	/*
-	 * (non-Javadoc)
-	 * 
-	 * @see java.util.AbstractList#get(int)
-	 */
-	@Override
 	public Student get(int index) {
-		return studentList[index];
+		return studentList.get(index);
 	}
 
-	public Student[] getStudentsList() {
+	public ArrayList<Student> getStudentsList() {
 		return studentList;
 	}
 
-	/*
-	 * (non-Javadoc)
-	 * 
-	 * @see java.util.AbstractCollection#size()
-	 */
-	@Override
 	public int size() {
-		if (studentList.length == 1 && studentList[0] == null) {
-			return 0;
-		}
-		return studentList.length;
+		return studentList.size();
 	}
 
-	@Override
-	public boolean add(Student student) {
-		if (studentList.length != 1) {
-			Student[] tmp = studentList;
-			studentList = new Student[tmp.length + 1];
-			for (int i = 0; i < tmp.length; i++) {
-				studentList[i] = tmp[i];
-			}
-		}
-		studentList[studentList.length - 1] = student;
-
-		if (studentList[studentList.length - 1].getStudentID() == student.getStudentID()) {
-			return true;
-		}
-		else {
-			return false;
-		}
+	public void add(Student student) {
+		this.studentList.add(student);
 	}
 
-	public boolean add(int studentID, String surname, String forname, String regGroup, Gender gender, int examNumber, boolean pupilPremiun, boolean eal, int catMean, int catVerbal, int catNonVerbal,
+	public void add(int studentID, String surname, String forname, String regGroup, Gender gender, int examNumber, boolean pupilPremiun, boolean eal, int catMean, int catVerbal, int catNonVerbal,
 			int catQuantative, int catAverage) {
-		if (studentList.length != 1) {
-			Student[] tmp = studentList;
-			studentList = new Student[tmp.length + 1];
-			for (int i = 0; i < tmp.length; i++) {
-				studentList[i] = tmp[i];
+		this.studentList.add(new Student(studentID, surname, forname, regGroup, gender, examNumber, pupilPremiun, eal, catMean, catVerbal, catNonVerbal, catQuantative, catAverage));
+
+	}
+
+	public StudentList compare(StudentList tmpList) {
+		StudentList retList = new StudentList();
+
+		for (Student b : tmpList.getStudentsList()) {
+			if (!studentExists(b)) {
+				if (!retList.studentExists(b)) {
+					retList.add(b);
+				}
 			}
 		}
-		studentList[studentList.length - 1] = new Student(studentID, surname, forname, regGroup, gender, examNumber, pupilPremiun, eal, catMean, catVerbal, catNonVerbal, catQuantative, catAverage);
-		if (studentList[studentList.length - 1].getStudentID() == studentID) {
-			return true;
+		return retList;
+	}
+
+	public boolean studentExists(Student s) {
+		for (Student list : studentList) {
+			if (list.getStudentID() == s.getStudentID()) {
+				System.out.println("Exists");
+				return true;
+			}
 		}
-		else {
-			return false;
-		}
+		return false;
 	}
 }

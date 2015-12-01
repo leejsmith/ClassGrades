@@ -4,25 +4,21 @@
 
 package model;
 
-import java.util.AbstractList;
+import java.util.ArrayList;
 
 /**
  * @author Lee John Smith
  *
  */
-public class ModuleList extends AbstractList<Module> {
+public class ModuleList {
 
-	Module[] moduleList;
+	private ArrayList<Module> moduleList;
 
 	public ModuleList() {
-		moduleList = new Module[1];
+		moduleList = new ArrayList<Module>();
 	}
 
-	public ModuleList(int size) {
-		moduleList = new Module[size];
-	}
-
-	public ModuleList(Module[] list) {
+	public ModuleList(ArrayList<Module> list) {
 		this.moduleList = list;
 	}
 
@@ -35,60 +31,24 @@ public class ModuleList extends AbstractList<Module> {
 		throw new UnknownModuleException("Unknown Module");
 	}
 
-	/*
-	 * (non-Javadoc)
-	 * 
-	 * @see java.util.AbstractList#get(int)
-	 */
-	@Override
 	public Module get(int index) {
-		return moduleList[index];
+		return moduleList.get(index);
 	}
 
-	/*
-	 * (non-Javadoc)
-	 * 
-	 * @see java.util.AbstractCollection#size()
-	 */
-	@Override
 	public int size() {
-		return moduleList.length;
+		return moduleList.size();
 	}
 
-	@Override
 	public boolean add(Module module) {
-		if (moduleList.length != 1) {
-			Module[] tmp = moduleList;
-			moduleList = new Module[tmp.length + 1];
-			for (int i = 0; i < tmp.length; i++) {
-				moduleList[i] = tmp[i];
-			}
-		}
-		moduleList[moduleList.length - 1] = module;
+		this.moduleList.add(module);
 
-		if (moduleList[moduleList.length - 1].getModuleID() == module.getModuleID()) {
-			return true;
-		}
-		else {
-			return false;
-		}
+		return moduleList.contains(module);
 	}
 
 	public boolean add(int moduleID, String moduleName) {
-		if (moduleList.length != 1) {
-			Module[] tmp = moduleList;
-			moduleList = new Module[tmp.length + 1];
-			for (int i = 0; i < tmp.length; i++) {
-				moduleList[i] = tmp[i];
-			}
-		}
-		moduleList[moduleList.length - 1] = new Module(moduleID, moduleName);
-		if (moduleList[moduleList.length - 1].getModuleID() == moduleID) {
-			return true;
-		}
-		else {
-			return false;
-		}
+		Module m = new Module(moduleID, moduleName);
+		this.moduleList.add(m);
+		return moduleList.contains(m);
 	}
 
 }

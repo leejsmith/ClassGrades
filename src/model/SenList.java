@@ -10,20 +10,20 @@ import java.util.ArrayList;
  * @author Lee John Smith
  *
  */
-public class SenList extends ArrayList<Sen> {
+public class SenList {
 
-	Sen[] senList;
+	private ArrayList<Sen> senList;
 
 	public SenList() {
-		senList = new Sen[1];
+		this.senList = new ArrayList<Sen>();
 	}
 
-	public SenList(int size) {
-		senList = new Sen[size];
-	}
-
-	public SenList(Sen[] list) {
+	public SenList(ArrayList<Sen> list) {
 		this.senList = list;
+	}
+
+	public ArrayList<Sen> getList() {
+		return senList;
 	}
 
 	public Sen getSenByID(int id) throws UnknownSenException {
@@ -32,90 +32,45 @@ public class SenList extends ArrayList<Sen> {
 				return s;
 			}
 		}
-		throw new UnknownSenException();
+		throw new UnknownSenException("No Sen Found");
 	}
 
-	/*
-	 * (non-Javadoc)
-	 * 
-	 * @see java.util.AbstractList#get(int)
-	 */
-	@Override
 	public Sen get(int index) {
-		return senList[index];
+		return senList.get(index);
 	}
 
-	/*
-	 * (non-Javadoc)
-	 * 
-	 * @see java.util.AbstractCollection#size()
-	 */
-	@Override
+	public void add(Sen sen) {
+		this.senList.add(sen);
+	}
+
+	public void add(int id, String name, String shortName) {
+		this.senList.add(new Sen(id, name, shortName));
+	}
+
 	public int size() {
-		return senList.length;
+		return this.senList.size();
 	}
 
-	@Override
-	public boolean add(Sen sen) {
-		Sen[] tmp = this.senList;
-		this.senList = new Sen[tmp.length + 1];
-		for (int i = 0; i < tmp.length; i++) {
-			this.senList[i] = tmp[i];
-		}
-
-		senList[senList.length - 1] = sen;
-
-		if (senList[senList.length - 1].getSenID() == sen.getSenID()) {
-			return true;
-		}
-		else {
-			return false;
-		}
-	}
-
-	public boolean add(int senID, String senName, String senShort) {
-
-		Sen[] tmp = this.senList;
-		senList = new Sen[tmp.length + 1];
-		for (int i = 0; i < tmp.length; i++) {
-			senList[i] = tmp[i];
-		}
-
-		senList[0] = new Sen(senID, senName, senShort);
-
-		senList[senList.length - 1] = new Sen(senID, senName, senShort);
-		if (senList[senList.length - 1].getSenID() == senID) {
-			return true;
-		}
-		else {
-			return false;
-		}
-	}
-
-	/**
-	 * Compares 2 Lists of SEN status's, returns a List of SENs that are not
-	 * within the classlist.
-	 * 
-	 * @param tmpList
-	 * @return
-	 */
 	public SenList compare(SenList tmpList) {
-		SenList tmp = new SenList();
-		System.out.println("SenList Size: " + senList.length + "     tmpList Size: " + tmpList.size());
-		boolean exists = false;
-		for (int i = 0; i < senList.length; i++) {
-			for (int j = 0; j < tmpList.size(); i++) {
-				if (tmpList.get(j).getSenID() == senList[i].getSenID()) {
-					exists = true;
-					System.out.println("tmp: " + tmpList.get(j).getSenID() + "   class:" + senList[i].getSenID());
+		SenList retList = new SenList();
+
+		for (Sen b : tmpList.getList()) {
+			if (!senExists(b)) {
+				if (!retList.senExists(b)) {
+					retList.add(b);
 				}
 			}
-			if (!exists) {
-				tmp.add(senList[i]);
-			}
-			exists = false;
 		}
+		return retList;
+	}
 
-		return tmp;
+	public boolean senExists(Sen s) {
+		for (Sen list : senList) {
+			if (list.getSenID() == s.getSenID()) {
+				System.out.println("Exists");
+				return true;
+			}
+		}
+		return false;
 	}
 }

@@ -34,7 +34,7 @@ public class Group {
 	public Group(int groupID, String groupName) {
 		this.groupID = groupID;
 		this.groupName = groupName;
-		this.students = new StudentList(1);
+		this.students = new StudentList();
 	}
 
 	/**
@@ -84,5 +84,18 @@ public class Group {
 
 	public void addStudent(Student student) {
 		this.students.add(student);
+	}
+
+	public StudentList compare(StudentList tmpList) {
+		StudentList retList = new StudentList();
+
+		for (Student b : tmpList.getStudentsList()) {
+			if (!retList.studentExists(b)) {
+				if (!retList.studentExists(b)) {
+					retList.add(b);
+				}
+			}
+		}
+		return retList;
 	}
 }
