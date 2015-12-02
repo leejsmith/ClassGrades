@@ -207,6 +207,58 @@ public class StudentDAO {
 
 	}
 
+	public static boolean insertStudent(Student s) {
+		boolean retVal = false;
+
+		try {
+			query = Database.getConnection().createStatement();
+
+			String sql = "";
+
+			sql = "INSERT INTO tbl_Student(surname, forename, regGroup, gender,examNumber,pupilPremium,eal,catMean,catVerbal,catNonVerbal,catQuant,catAverage) VALUES ('" + s.getSurname() + "','"
+					+ s.getForname() + "','" + s.getRegGroup() + "','" + s.getGender().toString() + "'," + s.getExamNumber() + (s.isPupilPremiun() ? 1 : 0) + "," + (s.isEal() ? 1 : 0) + ","
+					+ s.getCatMean() + "," + s.getCatVerbal() + "," + s.getCatNonVerbal() + "," + s.getCatQuantative() + "," + s.getCatAverage() + ")";
+
+			retVal = query.execute(sql);
+
+			if (!retVal) {
+				throw new DatabaseQueryException("Error inserting new student");
+			}
+
+			sql = "SELECT studentID FROM tbl_Student ORDER BY studentID DESC LIMIT 1";
+			ResultSet rs = query.executeQuery(sql);
+
+			int newStudentID = rs.getInt("studentID");
+
+			for (Sen sen : s.getSenStatus().getList()) {
+				sql = "INSERT INTO tbl_StudentSen(studentID, senID) VALUES (" + s.getStudentID() + "," + sen.getSenID() + ")";
+				retVal = query.execute(sql);
+				if (!retVal) {
+					throw new DatabaseQueryException("Error Inserting New Student SEN");
+				}
+			}
+
+			for (Allergy a : s.getAllergyList().getList()) {
+				sql = "INSERT INTO tbl_StudentAllergy(studentID,allergyID) VALUES (" + s.getStudentID() + "," + a.getAllergyID() + ")";
+				retVal = query.execute(sql);
+				if (!retVal) {
+					throw new DatabaseQueryException("Error inserting new Student Allergy");
+				}
+			}
+
+		}
+		catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		catch (DatabaseQueryException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+
+		return retVal;
+	}
+
 	public static boolean updateStudentInformation(Student s) {
 		boolean retVal = false;
 
@@ -355,4 +407,5 @@ public class StudentDAO {
 
 		return sen && allergy && group && result && student;
 	}
+
 }
