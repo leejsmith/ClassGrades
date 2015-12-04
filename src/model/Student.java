@@ -317,4 +317,17 @@ public class Student {
 	public void addResult(ModuleResult mr) {
 		this.results.add(mr);
 	}
+
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see java.lang.Object#toString()
+	 */
+	@Override
+	public String toString() {
+		return "StudentID=" + studentID + " Surname: " + surname + " Forname: " + forname + " regGroup: " + regGroup + " gender: " + gender + " examNumber: " + examNumber + ", pupilPremiun: "
+				+ pupilPremiun + " eal: " + eal + " catMean: " + catMean + " catVerbal: " + catVerbal + " catNonVerbal: " + catNonVerbal + " catQuantative: " + catQuantative + " catAverage: "
+				+ catAverage;
+	}
+
 }

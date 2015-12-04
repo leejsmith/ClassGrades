@@ -26,7 +26,7 @@ public class GroupDAO {
 		GroupList groups = new GroupList();
 
 		String groupSQL = "SELECT * FROM tbl_Group";
-		String studentGroupSQL = "";
+
 		try {
 			query = Database.getConnection().createStatement();
 

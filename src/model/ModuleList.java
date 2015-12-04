@@ -51,4 +51,8 @@ public class ModuleList {
 		return moduleList.contains(m);
 	}
 
+	public ArrayList<Module> getList() {
+		return moduleList;
+	}
+
 }

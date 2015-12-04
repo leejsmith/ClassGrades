@@ -91,7 +91,7 @@ CREATE TABLE tbl_CourseModule (
 CREATE TABLE tbl_StudentModuleResult(
     studentID INTEGER,
     moduleID INTEGER,
-    result INTEGER,
+    results INTEGER,
     PRIMARY KEY (studentID, moduleID),
     FOREIGN KEY (studentID) REFERENCES tbl_Student(studentID),
     FOREIGN KEY (moduleID) REFERENCES tbl_Module(moduleID)

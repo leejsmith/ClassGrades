@@ -34,6 +34,53 @@ public class DataStore {
 		moduleList = GeneralDAO.getModuleList();
 		courseList = CourseDAO.getCourses(groupList, moduleList);
 		StudentDAO.getStudentResults(studentList, moduleList);
+
+		System.out.println("SEN LIST");
+		System.out.println("Count: " + senList.size());
+
+		for (Sen s : senList.getList()) {
+			System.out.println(s.toString());
+		}
+
+		System.out.println();
+		System.out.println("ALLERGY LIST");
+		System.out.println("Count: " + allergyList.size());
+
+		for (Allergy s : allergyList.getList()) {
+			System.out.println(s.toString());
+		}
+
+		System.out.println();
+		System.out.println("STUDENT LIST");
+		System.out.println("Count: " + studentList.size());
+
+		for (Student s : studentList.getStudentsList()) {
+			System.out.println(s.toString());
+		}
+
+		System.out.println();
+		System.out.println("GROUP LIST");
+		System.out.println("Count: " + groupList.size());
+
+		for (Group s : groupList.getList()) {
+			System.out.println(s.toString());
+		}
+
+		System.out.println();
+		System.out.println("MODULE LIST");
+		System.out.println("Count: " + moduleList.size());
+
+		for (Module s : moduleList.getList()) {
+			System.out.println(s.toString());
+		}
+
+		System.out.println();
+		System.out.println("COURSE LIST");
+		System.out.println("Count: " + courseList.size());
+
+		for (Course s : courseList.getList()) {
+			System.out.println(s.toString());
+		}
 	}
 
 	/**

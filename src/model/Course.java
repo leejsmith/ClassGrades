@@ -88,4 +88,9 @@ public class Course {
 	public void addModule(Module m) {
 		this.modules.add(m);
 	}
+
+	@Override
+	public String toString() {
+		return "CourseID: " + courseID + " NAME: " + courseName;
+	}
 }

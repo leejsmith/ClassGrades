@@ -53,4 +53,14 @@ public class Allergy {
 		this.allergyName = allergyName;
 	}
 
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see java.lang.Object#toString()
+	 */
+	@Override
+	public String toString() {
+		return "AllergyID: " + allergyID + " NAME:" + allergyName;
+	}
+
 }

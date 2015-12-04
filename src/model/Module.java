@@ -48,4 +48,8 @@ public class Module {
 		this.moduleName = moduleName;
 	}
 
+	@Override
+	public String toString() {
+		return "ModuleID: " + moduleID + " NAME: " + moduleName;
+	}
 }

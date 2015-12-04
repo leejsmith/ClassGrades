@@ -70,4 +70,8 @@ public class Sen {
 		this.senShort = senShort;
 	}
 
+	@Override
+	public String toString() {
+		return "ID: " + senID + " NAME: " + senName + " SHORT: " + senShort;
+	}
 }

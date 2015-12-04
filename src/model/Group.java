@@ -98,4 +98,9 @@ public class Group {
 		}
 		return retList;
 	}
+
+	@Override
+	public String toString() {
+		return "GroupID: " + groupID + " NAME: " + groupName;
+	}
 }

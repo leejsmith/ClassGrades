@@ -51,4 +51,8 @@ public class CourseList {
 		return courseList.contains(c);
 	}
 
+	public ArrayList<Course> getList() {
+		return courseList;
+	}
+
 }

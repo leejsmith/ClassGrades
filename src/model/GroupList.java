@@ -51,4 +51,8 @@ public class GroupList {
 		return groupList.contains(g);
 	}
 
+	public ArrayList<Group> getList() {
+		return groupList;
+	}
+
 }

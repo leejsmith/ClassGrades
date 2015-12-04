@@ -47,12 +47,10 @@ public class StudentDAO {
 
 		query = null;
 
-		String studentSQL = "SELECT * FROM tbl_Student";
-		String senSQL;
-		String allergySQL;
-
 		try {
 			query = Database.getConnection().createStatement();
+
+			String studentSQL = "SELECT * FROM tbl_Student";
 
 			ResultSet studentSet = query.executeQuery(studentSQL);
 
@@ -92,21 +90,7 @@ public class StudentDAO {
 				Student newStudent = new Student(studentID, surname, forname, regGroup, gender, examNumber, pupilPremium, eal, catMean, catVerbal, catNonVerbal, catQuant, catAverage);
 
 				newStudent.setSenStatus(getStudentSenList(newStudent, senList));
-
-				allergySQL = "SELECT * FROM tbl_StudentAllergy WHERE studentID=" + studentID;
-
-				ResultSet allergySet = query.executeQuery(allergySQL);
-				int allergyID;
-				while (allergySet.next()) {
-					allergyID = allergySet.getInt("allergyID");
-					try {
-						newStudent.addAllergy(allergyList.getAllergyByID(allergyID));
-					}
-					catch (UnknownAllergyException e) {
-						JOptionPane.showMessageDialog(null,
-								"Error importing Student Allergy Information. Speak to System Administrator. Quote the Following \"Student Allergy Import Error - Student" + studentID + "\" ");
-					}
-				}
+				newStudent.setAllergyList(getStudentAllergyList(newStudent, allergyList));
 
 				studentList.add(newStudent);
 			}
@@ -121,21 +105,23 @@ public class StudentDAO {
 
 	public static void getStudentResults(StudentList students, ModuleList modules) {
 		try {
-			query = Database.getConnection().createStatement();
+			if (modules.size() != 0) {
+				query = Database.getConnection().createStatement();
 
-			String sql = "";
-			ResultSet studentResults = null;
-			for (Student s : students.getStudentsList()) {
-				sql = "SELECT moduleID, result FROM tbl_StudentModuleResult WHERE studentID=" + s.getStudentID();
-				System.out.println(sql);
-				studentResults = query.executeQuery(sql);
+				String sql = "";
+				ResultSet studentResults = null;
+				for (Student s : students.getStudentsList()) {
+					sql = "SELECT moduleID, results FROM tbl_StudentModuleResult WHERE studentID=" + s.getStudentID();
+					System.out.println(sql);
+					studentResults = query.executeQuery(sql);
 
-				while (studentResults.next()) {
-					int moduleID = studentResults.getInt("moduleID");
-					int result = studentResults.getInt("result");
-					Module m = modules.getModuleByID(moduleID);
+					while (studentResults.next()) {
+						int moduleID = studentResults.getInt("moduleID");
+						int result = studentResults.getInt("results");
+						Module m = modules.getModuleByID(moduleID);
 
-					s.addResult(new ModuleResult(m, result));
+						s.addResult(new ModuleResult(m, result));
+					}
 				}
 			}
 		}
@@ -155,6 +141,8 @@ public class StudentDAO {
 
 		ResultSet senSet;
 		try {
+			query = Database.getConnection().createStatement();
+
 			senSet = query.executeQuery(senSQL);
 
 			int senID;
@@ -175,7 +163,6 @@ public class StudentDAO {
 			e1.printStackTrace();
 		}
 		return null;
-
 	}
 
 	private static AllergyList getStudentAllergyList(Student s, AllergyList fullAllergyList) {
@@ -184,6 +171,8 @@ public class StudentDAO {
 
 		ResultSet allergySet;
 		try {
+			query = Database.getConnection().createStatement();
+
 			allergySet = query.executeQuery(allergySQL);
 
 			int allergyID;

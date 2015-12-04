@@ -4,6 +4,7 @@
 
 package run;
 
+import model.DataStore;
 import model.Sen;
 import model.SenList;
 
@@ -17,7 +18,8 @@ public class Run {
 	 * @param args
 	 */
 	public static void main(String[] args) {
-		senStudentDBCheck();
+		DataStore ds = new DataStore();
+
 	}
 
 	private static void senStudentDBCheck() {
