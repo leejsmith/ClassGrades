@@ -59,6 +59,7 @@ public class Student {
 		this.catVerbal = catVerbal;
 		this.catNonVerbal = catNonVerbal;
 		this.catQuantative = catQuantative;
+		this.catAverage = catAverage;
 		this.results = new ArrayList<ModuleResult>();
 	}
 

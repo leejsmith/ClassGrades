@@ -80,12 +80,14 @@ public class StudentDAO {
 				default:
 					gender = Gender.OTHER;
 				}
-
+				System.out.println(catAverageIn);
 				int catMean = catMeanIn.equals("") ? 0 : Integer.parseInt(catMeanIn);
 				int catVerbal = catVerbalIn.equals("") ? 0 : Integer.parseInt(catVerbalIn);
 				int catNonVerbal = catNonVerbalIn.equals("") ? 0 : Integer.parseInt(catNonVerbalIn);
 				int catQuant = catQuantIn.equals("") ? 0 : Integer.parseInt(catQuantIn);
 				int catAverage = catAverageIn.equals("") ? 0 : Integer.parseInt(catAverageIn);
+
+				System.out.println(catAverage);
 
 				Student newStudent = new Student(studentID, surname, forname, regGroup, gender, examNumber, pupilPremium, eal, catMean, catVerbal, catNonVerbal, catQuant, catAverage);
 
