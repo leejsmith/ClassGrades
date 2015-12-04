@@ -35,10 +35,11 @@ public class GroupDAO {
 			while (groupRS.next()) {
 				int groupID = groupRS.getInt("groupID");
 				String groupName = groupRS.getString("groupName");
-
+				System.out.println(groupName);
 				Group g = new Group(groupID, groupName);
 
 				g.setStudents(getGroupStudents(groupID, students));
+				groups.add(g);
 			}
 
 		}
