@@ -5,6 +5,7 @@
 package run;
 
 import model.DataStore;
+import controller.*;
 import model.Sen;
 import model.SenList;
 
@@ -18,8 +19,8 @@ public class Run {
 	 * @param args
 	 */
 	public static void main(String[] args) {
-		DataStore ds = new DataStore();
-
+		//DataStore ds = new DataStore();
+		Database.resetDatabase();
 	}
 
 	private static void senStudentDBCheck() {
