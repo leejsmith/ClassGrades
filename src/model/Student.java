@@ -29,6 +29,7 @@ public class Student {
 	private SenList					senStatus;
 	private AllergyList				allergyList;
 	private ArrayList<ModuleResult>	results;
+	private ArrayList<StudentCourse> predictedResults;
 
 	/**
 	 * @param studentID
@@ -61,6 +62,7 @@ public class Student {
 		this.catQuantative = catQuantative;
 		this.catAverage = catAverage;
 		this.results = new ArrayList<ModuleResult>();
+		this.predictedResults = new ArrayList<StudentCourse>();
 	}
 
 	/**
@@ -317,6 +319,10 @@ public class Student {
 
 	public void addResult(ModuleResult mr) {
 		this.results.add(mr);
+	}
+	
+	public void addCoursePredicted(Course c, char predicted){
+		this.predictedResults.add(new StudentCourse(c,predicted));
 	}
 
 	/*

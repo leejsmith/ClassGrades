@@ -75,16 +75,19 @@ CREATE TABLE tbl_CourseGroup(
     FOREIGN KEY (groupID) REFERENCES tbl_Group(groupID)
 );
 
-CREATE TABLE tbl_Module(
-    moduleID INTEGER PRIMARY KEY AUTOINCREMENT,
-    moduleName TEXT
+CREATE TABLE tbl_StudentCourse ( 
+    studentID INTEGER, 
+    courseID INTEGER, 
+    targetGrade TEXT, 
+    PRIMARY KEY(studentID,courseID), 
+    FOREIGN KEY(studentID) REFERENCES tbl_Student(studentID), 
+    FOREIGN KEY(courseID) REFERENCES tbl_Course(courseID) 
 );
 
-CREATE TABLE tbl_CourseModule (
+CREATE TABLE tbl_Module(
+    moduleID INTEGER PRIMARY KEY AUTOINCREMENT,
+    moduleName TEXT,
     courseID INTEGER,
-    moduleID INTEGER,
-    PRIMARY KEY (courseID, moduleID),
-    FOREIGN KEY (moduleID) REFERENCES tbl_Module(moduleID),
     FOREIGN KEY (courseID) REFERENCES tbl_Course(courseID)
 );
 

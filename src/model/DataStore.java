@@ -20,7 +20,6 @@ public class DataStore {
 	private AllergyList	allergyList;
 	private GroupList	groupList;
 	private CourseList	courseList;
-	private ModuleList	moduleList;
 
 	public DataStore() {
 		this.updateDatastore();
@@ -31,10 +30,10 @@ public class DataStore {
 		allergyList = GeneralDAO.getAllergyList();
 		studentList = StudentDAO.getStudents(senList, allergyList);
 		groupList = GroupDAO.getGroups(studentList);
-		moduleList = GeneralDAO.getModuleList();
-		courseList = CourseDAO.getCourses(groupList, moduleList);
-		StudentDAO.getStudentResults(studentList, moduleList);
-
+		courseList = CourseDAO.getCourses(groupList);
+		StudentDAO.getStudentResults(studentList, courseList);
+		StudentDAO.getStudentPredicted(courseList, studentList);
+		
 		System.out.println("SEN LIST");
 		System.out.println("Count: " + senList.size());
 
@@ -63,14 +62,6 @@ public class DataStore {
 		System.out.println("Count: " + groupList.size());
 
 		for (Group s : groupList.getList()) {
-			System.out.println(s.toString());
-		}
-
-		System.out.println();
-		System.out.println("MODULE LIST");
-		System.out.println("Count: " + moduleList.size());
-
-		for (Module s : moduleList.getList()) {
 			System.out.println(s.toString());
 		}
 
@@ -158,19 +149,5 @@ public class DataStore {
 		this.courseList = courseList;
 	}
 
-	/**
-	 * @return the moduleList
-	 */
-	public ModuleList getModuleList() {
-		return moduleList;
-	}
-
-	/**
-	 * @param moduleList
-	 *            the moduleList to set
-	 */
-	public void setModuleList(ModuleList moduleList) {
-		this.moduleList = moduleList;
-	}
 
 }

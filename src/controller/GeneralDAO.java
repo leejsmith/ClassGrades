@@ -67,26 +67,5 @@ public class GeneralDAO {
 		return senList;
 	}
 
-	public static ModuleList getModuleList() {
-		ModuleList moduleList = new ModuleList();
 
-		String moduleSQL = "SELECT * FROM tbl_Module";
-
-		try {
-			query = Database.getConnection().createStatement();
-
-			ResultSet rs = query.executeQuery(moduleSQL);
-
-			while (rs.next()) {
-				int moduleID = rs.getInt("moduleID");
-				String moduleName = rs.getString("moduleName");
-
-				moduleList.add(moduleID, moduleName);
-			}
-		}
-		catch (SQLException e) {
-
-		}
-		return moduleList;
-	}
 }
