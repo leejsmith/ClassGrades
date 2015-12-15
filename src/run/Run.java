@@ -4,8 +4,7 @@
 
 package run;
 
-import model.DataStore;
-import controller.*;
+import controller.GeneralDAO;
 import model.Sen;
 import model.SenList;
 
@@ -19,8 +18,12 @@ public class Run {
 	 * @param args
 	 */
 	public static void main(String[] args) {
-		//DataStore ds = new DataStore();
-		Database.resetDatabase();
+		// DataStore ds = new DataStore();
+		// Database.resetDatabase();
+
+		// new Login();
+
+		GeneralDAO.createNewUser("leesmith", "Lee", "Smith", "password1", true);
 	}
 
 	private static void senStudentDBCheck() {

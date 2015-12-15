@@ -16,7 +16,6 @@ import model.Course;
 import model.CourseList;
 import model.Gender;
 import model.Module;
-import model.ModuleList;
 import model.ModuleResult;
 import model.Sen;
 import model.SenList;
@@ -93,8 +92,7 @@ public class StudentDAO {
 
 				System.out.println(catAverage);
 
-				Student newStudent = new Student(studentID, surname, forname, regGroup, gender, examNumber,
-						pupilPremium, eal, catMean, catVerbal, catNonVerbal, catQuant, catAverage);
+				Student newStudent = new Student(studentID, surname, forname, regGroup, gender, examNumber, pupilPremium, eal, catMean, catVerbal, catNonVerbal, catQuant, catAverage);
 
 				newStudent.setSenStatus(getStudentSenList(newStudent, senList));
 				newStudent.setAllergyList(getStudentAllergyList(newStudent, allergyList));
@@ -102,7 +100,8 @@ public class StudentDAO {
 				studentList.add(newStudent);
 			}
 
-		} catch (SQLException e) {
+		}
+		catch (SQLException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
@@ -118,8 +117,7 @@ public class StudentDAO {
 					String sql = "";
 					ResultSet studentResults = null;
 					for (Student s : students.getStudentsList()) {
-						sql = "SELECT moduleID, results FROM tbl_StudentModuleResult WHERE studentID="
-								+ s.getStudentID();
+						sql = "SELECT moduleID, results FROM tbl_StudentModuleResult WHERE studentID=" + s.getStudentID();
 						System.out.println(sql);
 						studentResults = query.executeQuery(sql);
 
@@ -133,10 +131,12 @@ public class StudentDAO {
 					}
 				}
 			}
-		} catch (SQLException e) {
+		}
+		catch (SQLException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
-		} catch (UnknownModuleException e) {
+		}
+		catch (UnknownModuleException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
@@ -151,7 +151,7 @@ public class StudentDAO {
 			ResultSet pred = null;
 
 			for (Course c : courseList.getList()) {
-				sql = "SELECT * FROM tbl_CourseStudent WHERE courseID=" + c.getCourseID();
+				sql = "SELECT * FROM tbl_StudentCourse WHERE courseID=" + c.getCourseID();
 				pred = query.executeQuery(sql);
 
 				while (pred.next()) {
@@ -162,9 +162,11 @@ public class StudentDAO {
 				}
 			}
 
-		} catch (SQLException e) {
+		}
+		catch (SQLException e) {
 
-		} catch (UnknownStudentException e) {
+		}
+		catch (UnknownStudentException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
@@ -185,14 +187,15 @@ public class StudentDAO {
 				senID = senSet.getInt("senID");
 				try {
 					senList.add(fullSenList.getSenByID(senID));
-				} catch (UnknownSenException e) {
+				}
+				catch (UnknownSenException e) {
 					JOptionPane.showMessageDialog(null,
-							"Error importing Student SEN Information. Speak to System Administrator. Quote the Following \"Student SEN Import Error - Student"
-									+ s.getStudentID() + "\" ");
+							"Error importing Student SEN Information. Speak to System Administrator. Quote the Following \"Student SEN Import Error - Student" + s.getStudentID() + "\" ");
 				}
 			}
 			return senList;
-		} catch (SQLException e1) {
+		}
+		catch (SQLException e1) {
 			// TODO Auto-generated catch block
 			e1.printStackTrace();
 		}
@@ -214,14 +217,15 @@ public class StudentDAO {
 				allergyID = allergySet.getInt("allergyID");
 				try {
 					allergyList.add(fullAllergyList.getAllergyByID(allergyID));
-				} catch (UnknownAllergyException e) {
+				}
+				catch (UnknownAllergyException e) {
 					JOptionPane.showMessageDialog(null,
-							"Error importing Student Allergy Information. Speak to System Administrator. Quote the Following \"Student Allergy Import Error - Student"
-									+ s.getStudentID() + "\" ");
+							"Error importing Student Allergy Information. Speak to System Administrator. Quote the Following \"Student Allergy Import Error - Student" + s.getStudentID() + "\" ");
 				}
 			}
 			return allergyList;
-		} catch (SQLException e1) {
+		}
+		catch (SQLException e1) {
 			// TODO Auto-generated catch block
 			e1.printStackTrace();
 		}
@@ -237,11 +241,9 @@ public class StudentDAO {
 
 			String sql = "";
 
-			sql = "INSERT INTO tbl_Student(surname, forename, regGroup, gender,examNumber,pupilPremium,eal,catMean,catVerbal,catNonVerbal,catQuant,catAverage) VALUES ('"
-					+ s.getSurname() + "','" + s.getForname() + "','" + s.getRegGroup() + "','"
-					+ s.getGender().toString() + "'," + s.getExamNumber() + (s.isPupilPremiun() ? 1 : 0) + ","
-					+ (s.isEal() ? 1 : 0) + "," + s.getCatMean() + "," + s.getCatVerbal() + "," + s.getCatNonVerbal()
-					+ "," + s.getCatQuantative() + "," + s.getCatAverage() + ")";
+			sql = "INSERT INTO tbl_Student(surname, forename, regGroup, gender,examNumber,pupilPremium,eal,catMean,catVerbal,catNonVerbal,catQuant,catAverage) VALUES ('" + s.getSurname() + "','"
+					+ s.getForname() + "','" + s.getRegGroup() + "','" + s.getGender().toString() + "'," + s.getExamNumber() + (s.isPupilPremiun() ? 1 : 0) + "," + (s.isEal() ? 1 : 0) + ","
+					+ s.getCatMean() + "," + s.getCatVerbal() + "," + s.getCatNonVerbal() + "," + s.getCatQuantative() + "," + s.getCatAverage() + ")";
 
 			retVal = query.execute(sql);
 
@@ -255,8 +257,7 @@ public class StudentDAO {
 			int newStudentID = rs.getInt("studentID");
 
 			for (Sen sen : s.getSenStatus().getList()) {
-				sql = "INSERT INTO tbl_StudentSen(studentID, senID) VALUES (" + s.getStudentID() + "," + sen.getSenID()
-						+ ")";
+				sql = "INSERT INTO tbl_StudentSen(studentID, senID) VALUES (" + s.getStudentID() + "," + sen.getSenID() + ")";
 				retVal = query.execute(sql);
 				if (!retVal) {
 					throw new DatabaseQueryException("Error Inserting New Student SEN");
@@ -264,18 +265,19 @@ public class StudentDAO {
 			}
 
 			for (Allergy a : s.getAllergyList().getList()) {
-				sql = "INSERT INTO tbl_StudentAllergy(studentID,allergyID) VALUES (" + s.getStudentID() + ","
-						+ a.getAllergyID() + ")";
+				sql = "INSERT INTO tbl_StudentAllergy(studentID,allergyID) VALUES (" + s.getStudentID() + "," + a.getAllergyID() + ")";
 				retVal = query.execute(sql);
 				if (!retVal) {
 					throw new DatabaseQueryException("Error inserting new Student Allergy");
 				}
 			}
 
-		} catch (SQLException e) {
+		}
+		catch (SQLException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
-		} catch (DatabaseQueryException e) {
+		}
+		catch (DatabaseQueryException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
@@ -291,11 +293,9 @@ public class StudentDAO {
 
 			String sql;
 			String update = "UPDATE tbl_Student ";
-			String set = "SET (" + "surname='" + s.getSurname() + "', forname='" + s.getForname() + "', regGroup="
-					+ s.getRegGroup() + "', gender=" + s.getGender().name() + ", examNumber=" + s.getExamNumber()
-					+ ", pupilPremiun=" + (s.isPupilPremiun() ? 1 : 0) + ", eal=" + (s.isEal() ? 1 : 0) + ", catMean="
-					+ s.getCatMean() + ", catVerbal=" + s.getCatVerbal() + ", catNonVerbal=" + s.getCatNonVerbal()
-					+ ", catQuant=" + s.getCatQuantative() + ", catAverage=" + s.getCatAverage() + ") ";
+			String set = "SET (" + "surname='" + s.getSurname() + "', forname='" + s.getForname() + "', regGroup=" + s.getRegGroup() + "', gender=" + s.getGender().name() + ", examNumber="
+					+ s.getExamNumber() + ", pupilPremiun=" + (s.isPupilPremiun() ? 1 : 0) + ", eal=" + (s.isEal() ? 1 : 0) + ", catMean=" + s.getCatMean() + ", catVerbal=" + s.getCatVerbal()
+					+ ", catNonVerbal=" + s.getCatNonVerbal() + ", catQuant=" + s.getCatQuantative() + ", catAverage=" + s.getCatAverage() + ") ";
 			String where = " WHERE studentID=" + s.getStudentID();
 			sql = update + set + where;
 			retVal = query.execute(sql);
@@ -303,7 +303,8 @@ public class StudentDAO {
 			updateSENStatus(s);
 			updateAllergyStatus(s);
 
-		} catch (SQLException e) {
+		}
+		catch (SQLException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
@@ -331,29 +332,27 @@ public class StudentDAO {
 			String sql;
 
 			for (Sen senDel : deleteSEN.getList()) {
-				sql = "DELETE FROM tbl_StudentSEN WHERE studentID=" + s.getStudentID() + " AND senID="
-						+ senDel.getSenID();
+				sql = "DELETE FROM tbl_StudentSEN WHERE studentID=" + s.getStudentID() + " AND senID=" + senDel.getSenID();
 				retVal = query.execute(sql);
 				if (!retVal) {
-					throw new DatabaseQueryException(
-							"Error on Removing SEN: " + senDel.getSenName() + " for Student: " + s.getStudentID());
+					throw new DatabaseQueryException("Error on Removing SEN: " + senDel.getSenName() + " for Student: " + s.getStudentID());
 				}
 			}
 
 			for (Sen senIns : insertSEN.getList()) {
-				sql = "INSERT INTO tbl_StudentSen (studentID, senID) VALUES (" + s.getStudentID() + ","
-						+ senIns.getSenID() + ")";
+				sql = "INSERT INTO tbl_StudentSen (studentID, senID) VALUES (" + s.getStudentID() + "," + senIns.getSenID() + ")";
 				retVal = query.execute(sql);
 				if (!retVal) {
-					throw new DatabaseQueryException(
-							"Error on Removing SEN: " + senIns.getSenName() + " for Student: " + s.getStudentID());
+					throw new DatabaseQueryException("Error on Removing SEN: " + senIns.getSenName() + " for Student: " + s.getStudentID());
 				}
 			}
 
-		} catch (SQLException e) {
+		}
+		catch (SQLException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
-		} catch (DatabaseQueryException e) {
+		}
+		catch (DatabaseQueryException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
@@ -378,29 +377,27 @@ public class StudentDAO {
 			String sql;
 
 			for (Allergy allergyDel : deleteAllergy.getList()) {
-				sql = "DELETE FROM tbl_StudentAllergy WHERE studentID=" + s.getStudentID() + " AND allergyID="
-						+ allergyDel.getAllergyID();
+				sql = "DELETE FROM tbl_StudentAllergy WHERE studentID=" + s.getStudentID() + " AND allergyID=" + allergyDel.getAllergyID();
 				retVal = query.execute(sql);
 				if (!retVal) {
-					throw new DatabaseQueryException("Error on Removing Allergy: " + allergyDel.getAllergyName()
-							+ " for Student: " + s.getStudentID());
+					throw new DatabaseQueryException("Error on Removing Allergy: " + allergyDel.getAllergyName() + " for Student: " + s.getStudentID());
 				}
 			}
 
 			for (Allergy allergyIns : insertAllergy.getList()) {
-				sql = "INSERT INTO tbl_StudentAllergy (studentID, allergyID) VALUES (" + s.getStudentID() + ","
-						+ allergyIns.getAllergyID() + ")";
+				sql = "INSERT INTO tbl_StudentAllergy (studentID, allergyID) VALUES (" + s.getStudentID() + "," + allergyIns.getAllergyID() + ")";
 				retVal = query.execute(sql);
 				if (!retVal) {
-					throw new DatabaseQueryException("Error on Removing Allergy: " + allergyIns.getAllergyName()
-							+ " for Student: " + s.getStudentID());
+					throw new DatabaseQueryException("Error on Removing Allergy: " + allergyIns.getAllergyName() + " for Student: " + s.getStudentID());
 				}
 			}
 
-		} catch (SQLException e) {
+		}
+		catch (SQLException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
-		} catch (DatabaseQueryException e) {
+		}
+		catch (DatabaseQueryException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
@@ -410,6 +407,7 @@ public class StudentDAO {
 		boolean sen = false;
 		boolean allergy = false;
 		boolean group = false;
+		boolean course = false;
 		boolean result = false;
 		boolean student = false;
 
@@ -419,16 +417,19 @@ public class StudentDAO {
 			String senSQL = "DELETE FROM tbl_StudentSen WHERE studentID=" + s.getStudentID();
 			String allergySQL = "DELETE FROM tbl_StudentAllergy WHERE studentID=" + s.getStudentID();
 			String groupSQL = "DELETE FROM tbl_StudentGroup WHERE studentID=" + s.getStudentID();
+			String courseSQL = "DELETE FROM tbl_StudentCourse WHERE studentID=" + s.getStudentID();
 			String resultSQL = "DELETE FROM tbl_StudentModuleResult WHERE studentID=" + s.getStudentID();
 			String studentSQL = "DELETE FROM tbl_Student WHERE studentID=" + s.getStudentID();
 
 			sen = query.execute(senSQL);
 			allergy = query.execute(allergySQL);
 			group = query.execute(groupSQL);
+			course = query.execute(courseSQL);
 			result = query.execute(resultSQL);
 			student = query.execute(studentSQL);
 
-		} catch (SQLException e) {
+		}
+		catch (SQLException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
