@@ -2,7 +2,7 @@
  * 
  */
 
-package Datastore;
+package datastore;
 
 import java.sql.ResultSet;
 import java.sql.SQLException;

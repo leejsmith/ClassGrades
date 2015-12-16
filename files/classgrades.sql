@@ -1,4 +1,4 @@
-CREATE TABLE tbl_Users(userID INTEGER PRIMARY KEY AUTOINCREMENT,userName TEXT,salt TEXT,passwordSec TEXT,admin INTEGER);
+CREATE TABLE tbl_Users(userID INTEGER PRIMARY KEY AUTOINCREMENT,userName TEXT,forename TEXT,surname TEXT,salt TEXT,passwordSec TEXT,admin INTEGER);
 CREATE TABLE tbl_Student(studentID INTEGER PRIMARY KEY AUTOINCREMENT,surname TEXT,forename TEXT,regGroup TEXT,gender TEXT,examNumber INTEGER,pupilPremium INTEGER,eal INTEGER,catMean INTEGER,catVerbal INTEGER,catNonVerbal INTEGER,catQuant INTEGER,catAverage INTEGER);
 CREATE TABLE tbl_Sen(senID INTEGER PRIMARY KEY AUTOINCREMENT,senName TEXT,senShort TEXT);
 CREATE TABLE tbl_StudentSen (studentID INTEGER,senID INTEGER,PRIMARY KEY(studentID, senID),FOREIGN KEY(studentID) REFERENCES tbl_Student(studentID),FOREIGN KEY(senID) REFERENCES tbl_Sen(senID));
