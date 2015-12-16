@@ -4,10 +4,10 @@
 
 package model;
 
-import controller.CourseDAO;
 import controller.GeneralDAO;
-import controller.GroupDAO;
 import controller.StudentDAO;
+import dao.CourseDAO;
+import dao.GroupDAO;
 
 /**
  * @author Lee John Smith
