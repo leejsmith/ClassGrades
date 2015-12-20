@@ -33,7 +33,7 @@ import model.UnknownStudentException;
  * @author Lee John Smith
  *
  */
-public class StudentDAO {
+public class StudentDAO_OLD {
 
 	private static Statement query;
 
@@ -404,37 +404,7 @@ public class StudentDAO {
 	}
 
 	public static boolean deleteStudent(Student s) {
-		boolean sen = false;
-		boolean allergy = false;
-		boolean group = false;
-		boolean course = false;
-		boolean result = false;
-		boolean student = false;
 
-		try {
-			query = Database.getConnection().createStatement();
-
-			String senSQL = "DELETE FROM tbl_StudentSen WHERE studentID=" + s.getStudentID();
-			String allergySQL = "DELETE FROM tbl_StudentAllergy WHERE studentID=" + s.getStudentID();
-			String groupSQL = "DELETE FROM tbl_StudentGroup WHERE studentID=" + s.getStudentID();
-			String courseSQL = "DELETE FROM tbl_StudentCourse WHERE studentID=" + s.getStudentID();
-			String resultSQL = "DELETE FROM tbl_StudentModuleResult WHERE studentID=" + s.getStudentID();
-			String studentSQL = "DELETE FROM tbl_Student WHERE studentID=" + s.getStudentID();
-
-			sen = query.execute(senSQL);
-			allergy = query.execute(allergySQL);
-			group = query.execute(groupSQL);
-			course = query.execute(courseSQL);
-			result = query.execute(resultSQL);
-			student = query.execute(studentSQL);
-
-		}
-		catch (SQLException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
-
-		return sen && allergy && group && result && student;
 	}
 
 }

@@ -16,64 +16,38 @@ import controller.Database;
  */
 public class CourseGroupDAO {
 
-	private Statement query;
+	private static Statement query;
 
-	public ResultSet select() {
+	public static ResultSet select() throws SQLException {
 		ResultSet ret;
 		String sql = "SELECT * FROM tbl_CourseGroup";
-		try {
-			query = Database.getConnection().createStatement();
-
-			ret = query.executeQuery(sql);
-			query.close();
-			return ret;
-
-		}
-		catch (SQLException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
-		return null;
+		query = Database.getConnection().createStatement();
+		ret = query.executeQuery(sql);
+		query.close();
+		return ret;
 
 	}
 
-	public boolean insert(int course, int group) {
+	public static boolean insert(int course, int group) throws SQLException {
 		boolean ret = false;
-
-		try {
-			String sql = "INSERT INTO tbl_CourseGroup (courseID, groupID) VALUES (" + course + "," + group + ");";
-			query = Database.getConnection().createStatement();
-			ret = query.execute(sql);
-			query.close();
-			return ret;
-		}
-		catch (SQLException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
-		return false;
-
+		String sql = "INSERT INTO tbl_CourseGroup (courseID, groupID) VALUES (" + course + "," + group + ");";
+		query = Database.getConnection().createStatement();
+		ret = query.execute(sql);
+		query.close();
+		return ret;
 	}
 
-	public boolean delete(int id, boolean isCourse) {
+	public static boolean delete(int id, boolean isCourse) throws SQLException {
 		String sql = "";
 		boolean ret = false;
-		try {
-			query = Database.getConnection().createStatement();
-			if (isCourse) {
-				sql = "DELETE FROM tbl_CourseGroup WHERE courseID = " + id + "";
-			}
-			else {
-				sql = "DELETE FROM tbl_CourseGroup WHERE groupID = " + id + "";
-			}
-			ret = query.execute(sql);
-			return ret;
-
+		query = Database.getConnection().createStatement();
+		if (isCourse) {
+			sql = "DELETE FROM tbl_CourseGroup WHERE courseID = " + id + "";
 		}
-		catch (SQLException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
+		else {
+			sql = "DELETE FROM tbl_CourseGroup WHERE groupID = " + id + "";
 		}
+		ret = query.execute(sql);
 		return ret;
 
 	}

@@ -21,9 +21,7 @@ public class AllegyDAO {
 
 	public static ResultSet select() throws SQLException {
 		query = Database.getConnection().createStatement();
-
 		String sql = "SELECT * FROM tbl_Allergy";
-
 		ResultSet rs = query.executeQuery(sql);
 		query.close();
 		return rs;
@@ -31,8 +29,14 @@ public class AllegyDAO {
 
 	public static boolean insert(Allergy allergy) throws SQLException {
 		query = Database.getConnection().createStatement();
-
 		String sql = "INSERT INTO tbl_Allergy(allergyName) VALUES ('" + allergy.getAllergyName() + "')";
+		boolean ret = query.execute(sql);
+		query.close();
+		return ret;
+	}
+
+	public static boolean insertMultiple(String sql) throws SQLException {
+		query = Database.getConnection().createStatement();
 		boolean ret = query.execute(sql);
 		query.close();
 		return ret;
@@ -40,7 +44,6 @@ public class AllegyDAO {
 
 	public static boolean update(Allergy allergy) throws SQLException {
 		query = Database.getConnection().createStatement();
-
 		String sql = "UPDATE tbl_Allergy SET allergyName='" + allergy.getAllergyName() + "' WHERE allergyID=" + allergy.getAllergyID() + ";";
 		boolean ret = query.execute(sql);
 		query.close();
@@ -49,7 +52,6 @@ public class AllegyDAO {
 
 	public static boolean delete(Allergy allergy) throws SQLException {
 		query = Database.getConnection().createStatement();
-
 		String sql = "DELETE FROM tbl_Allergy WHERE allergyID=" + allergy.getAllergyID() + ";";
 		boolean ret = query.execute(sql);
 		query.close();
