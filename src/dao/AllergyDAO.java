@@ -15,7 +15,7 @@ import model.Allergy;
  * @author Lee John Smith
  *
  */
-public class AllegyDAO {
+public class AllergyDAO {
 
 	private static Statement query;
 

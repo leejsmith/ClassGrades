@@ -14,7 +14,7 @@ import controller.Database;
  * @author Lee John Smith
  *
  */
-public class StudentAllergyDAO {
+public class StudentSenDAO {
 
 	private static Statement query;
 
@@ -22,7 +22,7 @@ public class StudentAllergyDAO {
 		ResultSet ret = null;
 		try {
 			query = Database.getConnection().createStatement();
-			String sql = "SELECT * FROM tbl_StudentAllergy";
+			String sql = "SELECT * FROM tbl_StudentSen";
 			ret = query.executeQuery(sql);
 			query.close();
 			return ret;
@@ -37,7 +37,7 @@ public class StudentAllergyDAO {
 		ResultSet ret = null;
 		try {
 			query = Database.getConnection().createStatement();
-			String sql = "SELECT * FROM tbl_StudentAllergy WHERE studentID=" + student;
+			String sql = "SELECT * FROM tbl_StudentSen WHERE studentID=" + student;
 			ret = query.executeQuery(sql);
 			query.close();
 			return ret;
@@ -48,12 +48,11 @@ public class StudentAllergyDAO {
 		return null;
 	}
 
-	public static boolean insert(int student, int allergy) {
+	public static boolean insert(int student, int sen) {
 		boolean ret = false;
 		try {
 			query = Database.getConnection().createStatement();
-			String sql = "INSERT INTO tbl_StudentAllergy (studentID, allergyID) VALUES (" + student + "," + allergy
-					+ ");";
+			String sql = "INSERT INTO tbl_StudentSen (studentID, senID) VALUES (" + student + "," + sen + ");";
 			ret = query.execute(sql);
 			query.close();
 			return ret;
@@ -71,9 +70,9 @@ public class StudentAllergyDAO {
 			query = Database.getConnection().createStatement();
 			String sql;
 			if (isStudent) {
-				sql = "DELETE FROM tbl_StudentAllergy WHERE studentID=" + id;
+				sql = "DELETE FROM tbl_StudentSen WHERE studentID=" + id;
 			} else {
-				sql = "DELETE FROM tbl_StudentAllergy WHERE allergyID=" + id;
+				sql = "DELETE FROM tbl_StudentSen WHERE senID=" + id;
 			}
 			ret = query.execute(sql);
 			query.close();

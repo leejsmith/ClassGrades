@@ -1,7 +1,3 @@
-/**
- * 
- */
-
 package dao;
 
 import java.sql.ResultSet;
@@ -10,34 +6,14 @@ import java.sql.Statement;
 
 import controller.Database;
 
-/**
- * @author Lee John Smith
- *
- */
-public class StudentAllergyDAO {
-
+public class StudentModuleResultDAO {
 	private static Statement query;
-
-	public static ResultSet select() {
-		ResultSet ret = null;
-		try {
-			query = Database.getConnection().createStatement();
-			String sql = "SELECT * FROM tbl_StudentAllergy";
-			ret = query.executeQuery(sql);
-			query.close();
-			return ret;
-		} catch (SQLException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
-		return null;
-	}
 
 	public static ResultSet select(int student) {
 		ResultSet ret = null;
 		try {
 			query = Database.getConnection().createStatement();
-			String sql = "SELECT * FROM tbl_StudentAllergy WHERE studentID=" + student;
+			String sql = "SELECT * FROM tbl_StudentModuleResult WHERE studentID=" + student;
 			ret = query.executeQuery(sql);
 			query.close();
 			return ret;
@@ -45,15 +21,17 @@ public class StudentAllergyDAO {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
-		return null;
+		return ret;
+
 	}
 
-	public static boolean insert(int student, int allergy) {
+	public static boolean insert(int student, int module, int result) {
 		boolean ret = false;
+
 		try {
 			query = Database.getConnection().createStatement();
-			String sql = "INSERT INTO tbl_StudentAllergy (studentID, allergyID) VALUES (" + student + "," + allergy
-					+ ");";
+			String sql = "INSERT INTO tbl_StudentModuleResult (studentID,moduleID,results) VALUES (" + student + ","
+					+ module + "," + result + ")";
 			ret = query.execute(sql);
 			query.close();
 			return ret;
@@ -61,19 +39,18 @@ public class StudentAllergyDAO {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
-		return false;
-
+		return ret;
 	}
 
 	public static boolean delete(int id, boolean isStudent) {
+		String sql = "";
 		boolean ret = false;
 		try {
 			query = Database.getConnection().createStatement();
-			String sql;
 			if (isStudent) {
-				sql = "DELETE FROM tbl_StudentAllergy WHERE studentID=" + id;
+				sql = "DELETE FROM tbl_StudentModuleResult WHERE studentID=" + id;
 			} else {
-				sql = "DELETE FROM tbl_StudentAllergy WHERE allergyID=" + id;
+				sql = "DELETE FROM tbl_StudentModuleResult WHERE moduleID=" + id;
 			}
 			ret = query.execute(sql);
 			query.close();
@@ -82,8 +59,6 @@ public class StudentAllergyDAO {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
-
-		return false;
-
+		return ret;
 	}
 }
