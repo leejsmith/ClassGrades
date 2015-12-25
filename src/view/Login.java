@@ -21,9 +21,8 @@ import javax.swing.SwingConstants;
 import javax.swing.UIManager;
 import javax.swing.UnsupportedLookAndFeelException;
 
-import controller.DatabaseQueryException;
-import controller.GeneralDAO;
-import model.InvalidUserException;
+import dao.GeneralDAO;
+import model.User;
 
 /**
  * @author Lee John Smith
@@ -97,10 +96,11 @@ public class Login extends JFrame {
 
 			@Override
 			public void actionPerformed(ActionEvent arg0) {
-				try {
-					GeneralDAO.checkUser(txtUsername.getText(), txtPassword.getPassword());
-				} catch (InvalidUserException | DatabaseQueryException e) {
-					JOptionPane.showMessageDialog(null, "Invalid Username/Password");
+				User user = GeneralDAO.checkUser(txtUsername.getText(), txtPassword.getPassword());
+				if (user != null) {
+					JOptionPane.showMessageDialog(null, "Success");
+				} else {
+					JOptionPane.showMessageDialog(null, "Incorrect Username or Password");
 				}
 			}
 		});

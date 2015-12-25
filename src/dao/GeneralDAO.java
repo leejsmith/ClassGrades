@@ -2,7 +2,7 @@
  * 
  */
 
-package controller;
+package dao;
 
 import java.math.BigInteger;
 import java.security.MessageDigest;
@@ -13,7 +13,9 @@ import java.sql.SQLException;
 import java.sql.Statement;
 import java.util.Random;
 
+import controller.Database;
 import model.InvalidUserException;
+import model.User;
 
 /**
  * @author Lee John Smith
@@ -22,6 +24,32 @@ import model.InvalidUserException;
 public class GeneralDAO {
 
 	private static Statement query;
+
+	public static User checkUser(String username, char[] password) {
+		String pass = String.valueOf(password);
+		boolean correct = false;
+		try {
+			query = Database.getConnection().createStatement();
+			String sql = "SELECT * from tbl_User WHERE username='" + username + "'";
+			ResultSet rs = query.executeQuery(sql);
+			while (rs.next()) {
+				String salt = rs.getString("salt");
+				String dbPassword = rs.getString("passworSec");
+				String forename = rs.getString("forename");
+				String surname = rs.getString("surname");
+				boolean admin = rs.getInt("admin") == 1 ? true : false;
+				if (checkPassword(salt, pass, dbPassword)) {
+					return new User(username, forename, surname, admin);
+				} else {
+					return null;
+				}
+			}
+
+		} catch (SQLException e) {
+			return null;
+		}
+		return null;
+	}
 
 	private static boolean checkPassword(String salt, String password, String dbPass) {
 		String checkPass = getSecurePassword(password, salt);
