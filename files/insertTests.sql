@@ -82,22 +82,14 @@ INSERT INTO tbl_StudentGroup(groupID, studentID) VALUES (1,20);
 
 INSERT INTO tbl_Course(courseName) VALUES ('BTEC Psychology');
 
-INSERT INTO tbl_Module(moduleName) VALUES ('Memory');
-INSERT INTO tbl_CourseModule(courseID, moduleID) VALUES (1,1);
-INSERT INTO tbl_Module(moduleName) VALUES ('NVC');
-INSERT INTO tbl_CourseModule(courseID, moduleID) VALUES (1,2);
-INSERT INTO tbl_Module(moduleName) VALUES ('Personality');
-INSERT INTO tbl_CourseModule(courseID, moduleID) VALUES (1,3);
-INSERT INTO tbl_Module(moduleName) VALUES ('Stereotyping');
-INSERT INTO tbl_CourseModule(courseID, moduleID) VALUES (1,4);
-INSERT INTO tbl_Module(moduleName) VALUES ('Research Methods');
-INSERT INTO tbl_CourseModule(courseID, moduleID) VALUES (1,5);
-INSERT INTO tbl_Module(moduleName) VALUES ('Social Conformity');
-INSERT INTO tbl_CourseModule(courseID, moduleID) VALUES (1,6);
-INSERT INTO tbl_Module(moduleName) VALUES ('Sex and Gender');
-INSERT INTO tbl_CourseModule(courseID, moduleID) VALUES (1,7);
-INSERT INTO tbl_Module(moduleName) VALUES ('Aggression');
-INSERT INTO tbl_CourseModule(courseID, moduleID) VALUES (1,8);
+INSERT INTO tbl_Module(moduleName, courseID) VALUES ('Memory',1);
+INSERT INTO tbl_Module(moduleName, courseID) VALUES ('NVC',1);
+INSERT INTO tbl_Module(moduleName, courseID) VALUES ('Personality',1);
+INSERT INTO tbl_Module(moduleName, courseID) VALUES ('Stereotyping',1);
+INSERT INTO tbl_Module(moduleName, courseID) VALUES ('Research Methods',1);
+INSERT INTO tbl_Module(moduleName, courseID) VALUES ('Social Conformity',1);
+INSERT INTO tbl_Module(moduleName, courseID) VALUES ('Sex and Gender',1);
+INSERT INTO tbl_Module(moduleName, courseID) VALUES ('Aggression',1);
 
 INSERT INTO tbl_StudentCourse(studentID, courseID, targetGrade) VALUES (1,1,'B');
 INSERT INTO tbl_StudentCourse(studentID, courseID, targetGrade) VALUES (2,1,'B');
@@ -281,4 +273,3 @@ INSERT INTO tbl_StudentModuleResult(studentID,moduleID,results) VALUES (17,8,0);
 INSERT INTO tbl_StudentModuleResult(studentID,moduleID,results) VALUES (18,8,0);
 INSERT INTO tbl_StudentModuleResult(studentID,moduleID,results) VALUES (19,8,0);
 INSERT INTO tbl_StudentModuleResult(studentID,moduleID,results) VALUES (20,8,0);
-

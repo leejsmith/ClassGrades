@@ -28,10 +28,15 @@ public class ModuleDAO {
 		return ret;
 	}
 
-	public static ResultSet select(int moduleID) throws SQLException {
+	public static ResultSet select(int id, boolean isCourse) throws SQLException {
 		ResultSet ret = null;
 		query = Database.getConnection().createStatement();
-		String sql = "SELECT * FROM tbl_Module WHERE moduleID=" + moduleID;
+		String sql;
+		if (isCourse) {
+			sql = "SELECT * FROM tbl_Module WHERE courseID=" + id;
+		} else {
+			sql = "SELECT * FROM tbl_Module WHERE moduleID=" + id;
+		}
 		ret = query.executeQuery(sql);
 
 		return ret;

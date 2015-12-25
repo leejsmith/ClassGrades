@@ -13,7 +13,6 @@ import javax.swing.JOptionPane;
 import dao.AllergyDAO;
 import dao.CourseDAO;
 import dao.CourseGroupDAO;
-import dao.CourseModuleDAO;
 import dao.GroupDAO;
 import dao.ModuleDAO;
 import dao.SenDAO;
@@ -253,17 +252,13 @@ public class DataStore {
 					c.addGroup(groupList.getGroupByID(groupID));
 				}
 
-				ResultSet courseMods = CourseModuleDAO.select(courseID, true);
-				int moduleID;
+				ResultSet courseMods = ModuleDAO.select(courseID, true);
+				Module module = null;
 				while (courseMods.next()) {
-					moduleID = courseMods.getInt("moduleID");
-					ResultSet mod = ModuleDAO.select(moduleID);
-					String modName = "";
-					while (mod.next()) {
-						modName = mod.getString("moduleName");
-						break;
-					}
-					c.addModule(new Module(moduleID, modName));
+					int moduleID = courseMods.getInt("moduleID");
+					String moduleName = courseMods.getString("moduleName");
+					module = new Module(moduleID, moduleName);
+					c.addModule(module);
 				}
 
 				courses.add(c);
