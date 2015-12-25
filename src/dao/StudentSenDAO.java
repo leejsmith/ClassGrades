@@ -18,71 +18,47 @@ public class StudentSenDAO {
 
 	private static Statement query;
 
-	public static ResultSet select() {
+	public static ResultSet select() throws SQLException {
 		ResultSet ret = null;
-		try {
-			query = Database.getConnection().createStatement();
-			String sql = "SELECT * FROM tbl_StudentSen";
-			ret = query.executeQuery(sql);
-			query.close();
-			return ret;
-		} catch (SQLException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
-		return null;
+		query = Database.getConnection().createStatement();
+		String sql = "SELECT * FROM tbl_StudentSen";
+		ret = query.executeQuery(sql);
+		query.close();
+		return ret;
 	}
 
-	public static ResultSet select(int student) {
+	public static ResultSet select(int student) throws SQLException {
 		ResultSet ret = null;
-		try {
-			query = Database.getConnection().createStatement();
-			String sql = "SELECT * FROM tbl_StudentSen WHERE studentID=" + student;
-			ret = query.executeQuery(sql);
-			query.close();
-			return ret;
-		} catch (SQLException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
-		return null;
-	}
 
-	public static boolean insert(int student, int sen) {
-		boolean ret = false;
-		try {
-			query = Database.getConnection().createStatement();
-			String sql = "INSERT INTO tbl_StudentSen (studentID, senID) VALUES (" + student + "," + sen + ");";
-			ret = query.execute(sql);
-			query.close();
-			return ret;
-		} catch (SQLException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
-		return false;
+		query = Database.getConnection().createStatement();
+		String sql = "SELECT * FROM tbl_StudentSen WHERE studentID=" + student;
+		ret = query.executeQuery(sql);
+		query.close();
+		return ret;
 
 	}
 
-	public static boolean delete(int id, boolean isStudent) {
+	public static boolean insert(int student, int sen) throws SQLException {
 		boolean ret = false;
-		try {
-			query = Database.getConnection().createStatement();
-			String sql;
-			if (isStudent) {
-				sql = "DELETE FROM tbl_StudentSen WHERE studentID=" + id;
-			} else {
-				sql = "DELETE FROM tbl_StudentSen WHERE senID=" + id;
-			}
-			ret = query.execute(sql);
-			query.close();
-			return ret;
-		} catch (SQLException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
+		query = Database.getConnection().createStatement();
+		String sql = "INSERT INTO tbl_StudentSen (studentID, senID) VALUES (" + student + "," + sen + ");";
+		ret = query.execute(sql);
+		query.close();
+		return ret;
+	}
 
-		return false;
+	public static boolean delete(int id, boolean isStudent) throws SQLException {
+		boolean ret = false;
+		query = Database.getConnection().createStatement();
+		String sql;
+		if (isStudent) {
+			sql = "DELETE FROM tbl_StudentSen WHERE studentID=" + id;
+		} else {
+			sql = "DELETE FROM tbl_StudentSen WHERE senID=" + id;
+		}
+		ret = query.execute(sql);
+		query.close();
+		return ret;
 
 	}
 }

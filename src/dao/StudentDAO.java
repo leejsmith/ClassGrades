@@ -84,12 +84,12 @@ public class StudentDAO {
 		boolean result = false;
 		boolean student = false;
 
-		sen = StudentSenDAO.delete(s.getStudentID(), true);
-		allergy = StudentAllergyDAO.delete(s.getStudentID(), true);
-		group = StudentGroupDAO.delete(s.getStudentID(), true);
-		course = StudentCourseDAO.delete(s.getStudentID(), true);
-		result = StudentModuleResultDAO.delete(s.getStudentID(), true);
 		try {
+			sen = StudentSenDAO.delete(s.getStudentID(), true);
+			allergy = StudentAllergyDAO.delete(s.getStudentID(), true);
+			group = StudentGroupDAO.delete(s.getStudentID(), true);
+			course = StudentCourseDAO.delete(s.getStudentID(), true);
+			result = StudentModuleResultDAO.delete(s.getStudentID(), true);
 			student = query.execute("DELETE FROM tbl_Student WHERE studentID=" + s.getStudentID());
 		} catch (SQLException e) {
 			// TODO Auto-generated catch block

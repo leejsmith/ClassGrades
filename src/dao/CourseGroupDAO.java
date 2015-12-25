@@ -25,7 +25,19 @@ public class CourseGroupDAO {
 		ret = query.executeQuery(sql);
 		query.close();
 		return ret;
+	}
 
+	public static ResultSet select(int id, boolean isCourse) throws SQLException {
+		ResultSet ret = null;
+		String sql;
+		if (isCourse) {
+			sql = "SELECT groupID FROM tbl_CourseGroup WHERE courseID=" + id;
+		} else {
+			sql = "SELECT courseID FROM tbl_CourseGroup WHERE groupID=" + id;
+		}
+		ret = query.executeQuery(sql);
+		query.close();
+		return ret;
 	}
 
 	public static boolean insert(int course, int group) throws SQLException {
@@ -43,8 +55,7 @@ public class CourseGroupDAO {
 		query = Database.getConnection().createStatement();
 		if (isCourse) {
 			sql = "DELETE FROM tbl_CourseGroup WHERE courseID = " + id + "";
-		}
-		else {
+		} else {
 			sql = "DELETE FROM tbl_CourseGroup WHERE groupID = " + id + "";
 		}
 		ret = query.execute(sql);

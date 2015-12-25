@@ -44,35 +44,14 @@ public class GeneralDAO {
 
 				allergyList.add(allergyID, allergyName);
 			}
-		}
-		catch (SQLException e) {
+		} catch (SQLException e) {
 
 		}
 		return allergyList;
 	}
 
 	public static SenList getSenList() {
-		SenList senList = new SenList();
 
-		String senSQL = "SELECT * FROM tbl_Sen";
-
-		try {
-			query = Database.getConnection().createStatement();
-
-			ResultSet rs = query.executeQuery(senSQL);
-
-			while (rs.next()) {
-				int senID = rs.getInt("senID");
-				String senName = rs.getString("senName");
-				String senShort = rs.getString("senShort");
-
-				senList.add(senID, senName, senShort);
-			}
-		}
-		catch (SQLException e) {
-
-		}
-		return senList;
 	}
 
 	/**
@@ -95,8 +74,7 @@ public class GeneralDAO {
 
 			if (count != 1) {
 				throw new InvalidUserException();
-			}
-			else {
+			} else {
 
 				String sql = "SELECT * FROM tbl_Users WHERE userName='" + username + "'";
 
@@ -119,13 +97,11 @@ public class GeneralDAO {
 				if (checkPassword(salt, password, dbPass)) {
 					JOptionPane.showMessageDialog(null, "Success");
 					return user;
-				}
-				else {
+				} else {
 					throw new InvalidUserException("Incorrect Password");
 				}
 			}
-		}
-		catch (SQLException e) {
+		} catch (SQLException e) {
 			throw new DatabaseQueryException("Error connecting to the database");
 		}
 
@@ -140,22 +116,37 @@ public class GeneralDAO {
 
 	public static void createNewUser(String username, String forename, String surname, String password, boolean admin) {
 		try {
-			String salt = getSalt();
-			String encryptedPass = getSecurePassword(password, salt);
-
-			String sql = "INSERT INTO tbl_Users (userName, salt, passwordSec, admin, forename, surname) VALUES ('" + username + "','" + salt + "','" + encryptedPass + "'," + (admin ? 1 : 0) + ",'"
-					+ forename + "','" + surname + "')";
-			System.out.println(sql);
-
 			query = Database.getConnection().createStatement();
-			query.execute(sql);
+			String userCheck = "SELECT COUNT(*) AS count FROM tbl_Users WHERE userName='" + username + "'";
 
-		}
-		catch (NoSuchAlgorithmException e) {
+			ResultSet userCount = query.executeQuery(userCheck);
+
+			userCount.next();
+			int count = userCount.getInt("count");
+
+			if (count != 0) {
+				throw new InvalidUserException();
+			} else {
+
+				String salt = getSalt();
+				String encryptedPass = getSecurePassword(password, salt);
+
+				String sql = "INSERT INTO tbl_Users (userName, salt, passwordSec, admin, forename, surname) VALUES ('"
+						+ username + "','" + salt + "','" + encryptedPass + "'," + (admin ? 1 : 0) + ",'" + forename
+						+ "','" + surname + "')";
+				System.out.println(sql);
+
+				query = Database.getConnection().createStatement();
+				query.execute(sql);
+			}
+
+		} catch (NoSuchAlgorithmException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
-		}
-		catch (SQLException e) {
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} catch (InvalidUserException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
@@ -181,8 +172,7 @@ public class GeneralDAO {
 				sb.append(Integer.toString((bytes[i] & 0xff) + 0x100, 16).substring(1));
 			}
 			generatedPassword = sb.toString();
-		}
-		catch (NoSuchAlgorithmException e) {
+		} catch (NoSuchAlgorithmException e) {
 			e.printStackTrace();
 		}
 		return generatedPassword;

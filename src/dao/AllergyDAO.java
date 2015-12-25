@@ -44,7 +44,8 @@ public class AllergyDAO {
 
 	public static boolean update(Allergy allergy) throws SQLException {
 		query = Database.getConnection().createStatement();
-		String sql = "UPDATE tbl_Allergy SET allergyName='" + allergy.getAllergyName() + "' WHERE allergyID=" + allergy.getAllergyID() + ";";
+		String sql = "UPDATE tbl_Allergy SET allergyName='" + allergy.getAllergyName() + "' WHERE allergyID="
+				+ allergy.getAllergyID() + ";";
 		boolean ret = query.execute(sql);
 		query.close();
 		return ret;
