@@ -4,7 +4,6 @@
 
 package run;
 
-import controller.Database;
 import model.DataStore;
 import model.Sen;
 import model.SenList;
@@ -20,7 +19,7 @@ public class Run {
 	 */
 	public static void main(String[] args) {
 		DataStore ds = new DataStore();
-		Database.resetDatabase();
+		// Database.resetDatabase();
 
 		// new Login();
 

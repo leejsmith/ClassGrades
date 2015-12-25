@@ -6,7 +6,6 @@ package view;
 
 import java.awt.Color;
 import java.awt.Dimension;
-import java.awt.EventQueue;
 import java.awt.Font;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -32,28 +31,21 @@ import model.InvalidUserException;
  */
 public class Login extends JFrame {
 
-	private JPanel			contentPane;
-	private JTextField		txtUsername;
-	private JPasswordField	txtPassword;
+	private JPanel contentPane;
+	private JTextField txtUsername;
+	private JPasswordField txtPassword;
 
 	/**
 	 * Launch the application.
 	 */
-	public static void main(String[] args) {
-		EventQueue.invokeLater(new Runnable() {
-
-			@Override
-			public void run() {
-				try {
-					Login frame = new Login();
-					frame.setVisible(true);
-				}
-				catch (Exception e) {
-					e.printStackTrace();
-				}
-			}
-		});
-	}
+	/*
+	 * public static void main(String[] args) { EventQueue.invokeLater(new
+	 * Runnable() {
+	 * 
+	 * @Override public void run() { try { Login frame = new Login();
+	 * frame.setVisible(true); } catch (Exception e) { e.printStackTrace(); } }
+	 * }); }
+	 */
 
 	/**
 	 * Create the frame.
@@ -61,8 +53,8 @@ public class Login extends JFrame {
 	public Login() {
 		try {
 			UIManager.setLookAndFeel(UIManager.getCrossPlatformLookAndFeelClassName());
-		}
-		catch (ClassNotFoundException | InstantiationException | IllegalAccessException | UnsupportedLookAndFeelException e) {
+		} catch (ClassNotFoundException | InstantiationException | IllegalAccessException
+				| UnsupportedLookAndFeelException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
@@ -107,8 +99,7 @@ public class Login extends JFrame {
 			public void actionPerformed(ActionEvent arg0) {
 				try {
 					GeneralDAO.checkUser(txtUsername.getText(), txtPassword.getPassword());
-				}
-				catch (InvalidUserException | DatabaseQueryException e) {
+				} catch (InvalidUserException | DatabaseQueryException e) {
 					JOptionPane.showMessageDialog(null, "Invalid Username/Password");
 				}
 			}

@@ -1,3 +1,18 @@
+DROP TABLE tbl_Users;
+DROP TABLE tbl_StudentModuleResult;
+DROP TABLE tbl_StudentCourse;
+DROP TABLE tbl_CourseModule;
+DROP TABLE tbl_Module;
+DROP TABLE tbl_CourseGroup;
+DROP TABLE tbl_StudentGroup;
+DROP TABLE tbl_StudentAllergy;
+DROP TABLE tbl_StudentSen;
+DROP TABLE tbl_Allergy;
+DROP TABLE tbl_Sen;
+DROP TABLE tbl_Student;
+DROP TABLE tbl_Course;
+DROP TABLE tbl_Group;
+
 CREATE TABLE tbl_Users(userID INTEGER PRIMARY KEY AUTOINCREMENT,userName TEXT,forename TEXT,surname TEXT,salt TEXT,passwordSec TEXT,admin INTEGER);
 CREATE TABLE tbl_Student(studentID INTEGER PRIMARY KEY AUTOINCREMENT,surname TEXT,forename TEXT,regGroup TEXT,gender TEXT,examNumber INTEGER,pupilPremium INTEGER,eal INTEGER,catMean INTEGER,catVerbal INTEGER,catNonVerbal INTEGER,catQuant INTEGER,catAverage INTEGER);
 CREATE TABLE tbl_Sen(senID INTEGER PRIMARY KEY AUTOINCREMENT,senName TEXT,senShort TEXT);
@@ -10,4 +25,5 @@ CREATE TABLE tbl_Course(courseID INTEGER PRIMARY KEY AUTOINCREMENT,courseName TE
 CREATE TABLE tbl_CourseGroup(courseID INTEGER,groupID INTEGER,PRIMARY KEY (courseID, groupID),FOREIGN KEY (courseID) REFERENCES tbl_Course(courseID),FOREIGN KEY (groupID) REFERENCES tbl_Group(groupID));
 CREATE TABLE tbl_StudentCourse ( studentID INTEGER, courseID INTEGER, targetGrade TEXT, PRIMARY KEY(studentID,courseID), FOREIGN KEY(studentID) REFERENCES tbl_Student(studentID), FOREIGN KEY(courseID) REFERENCES tbl_Course(courseID) );
 CREATE TABLE tbl_Module(moduleID INTEGER PRIMARY KEY AUTOINCREMENT,moduleName TEXT,courseID INTEGER,FOREIGN KEY (courseID) REFERENCES tbl_Course(courseID));
+CREATE TABLE tbl_CourseModule ( courseID INTEGER, moduleID INTEGER, PRIMARY KEY(courseID,moduleID), FOREIGN KEY(courseID) REFERENCES tbl_Course(courseID), FOREIGN KEY(moduleID) REFERENCES tbl_Module(moduleID) );
 CREATE TABLE tbl_StudentModuleResult(studentID INTEGER,moduleID INTEGER,results INTEGER,PRIMARY KEY (studentID, moduleID),FOREIGN KEY (studentID) REFERENCES tbl_Student(studentID),FOREIGN KEY (moduleID) REFERENCES tbl_Module(moduleID));

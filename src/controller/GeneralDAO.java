@@ -13,12 +13,7 @@ import java.sql.SQLException;
 import java.sql.Statement;
 import java.util.Random;
 
-import javax.swing.JOptionPane;
-
-import model.AllergyList;
 import model.InvalidUserException;
-import model.SenList;
-import model.User;
 
 /**
  * @author Lee John Smith
@@ -27,85 +22,6 @@ import model.User;
 public class GeneralDAO {
 
 	private static Statement query;
-
-	public static AllergyList getAllergyList() {
-		AllergyList allergyList = new AllergyList();
-
-		String allergySQL = "SELECT * FROM tbl_Allergy";
-
-		try {
-			query = Database.getConnection().createStatement();
-
-			ResultSet rs = query.executeQuery(allergySQL);
-
-			while (rs.next()) {
-				int allergyID = rs.getInt("allergyID");
-				String allergyName = rs.getString("allergyName");
-
-				allergyList.add(allergyID, allergyName);
-			}
-		} catch (SQLException e) {
-
-		}
-		return allergyList;
-	}
-
-	public static SenList getSenList() {
-
-	}
-
-	/**
-	 * @param text
-	 * @param password
-	 * @throws DatabaseQueryException
-	 */
-	public static User checkUser(String text, char[] pass) throws InvalidUserException, DatabaseQueryException {
-		String username = text;
-		String password = String.copyValueOf(pass);
-
-		try {
-			query = Database.getConnection().createStatement();
-			String userCheck = "SELECT COUNT(*) AS count FROM tbl_Users WHERE userName='" + text + "'";
-
-			ResultSet userCount = query.executeQuery(userCheck);
-
-			userCount.next();
-			int count = userCount.getInt("count");
-
-			if (count != 1) {
-				throw new InvalidUserException();
-			} else {
-
-				String sql = "SELECT * FROM tbl_Users WHERE userName='" + username + "'";
-
-				ResultSet userResults = query.executeQuery(sql);
-
-				String forename, surname, salt, dbPass;
-				int userID;
-				boolean admin;
-
-				userResults.next();
-				forename = userResults.getString("forename");
-				surname = userResults.getString("surname");
-				salt = userResults.getString("salt");
-				dbPass = userResults.getString("passwordSec");
-				userID = userResults.getInt("userID");
-				admin = ((userResults.getInt("admin") == 1) ? true : false);
-
-				User user = new User(username, forename, surname, admin);
-
-				if (checkPassword(salt, password, dbPass)) {
-					JOptionPane.showMessageDialog(null, "Success");
-					return user;
-				} else {
-					throw new InvalidUserException("Incorrect Password");
-				}
-			}
-		} catch (SQLException e) {
-			throw new DatabaseQueryException("Error connecting to the database");
-		}
-
-	}
 
 	private static boolean checkPassword(String salt, String password, String dbPass) {
 		String checkPass = getSecurePassword(password, salt);
