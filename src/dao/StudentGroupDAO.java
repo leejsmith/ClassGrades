@@ -24,7 +24,7 @@ public class StudentGroupDAO {
 
 		query = Database.getConnection().createStatement();
 		studentsRS = query.executeQuery(SQL);
-		query.close();
+		
 
 		return studentsRS;
 	}

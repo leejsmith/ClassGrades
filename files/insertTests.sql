@@ -99,6 +99,27 @@ INSERT INTO tbl_CourseModule(courseID, moduleID) VALUES (1,7);
 INSERT INTO tbl_Module(moduleName) VALUES ('Aggression');
 INSERT INTO tbl_CourseModule(courseID, moduleID) VALUES (1,8);
 
+INSERT INTO tbl_StudentCourse(studentID, courseID, targetGrade) VALUES (1,1,'B');
+INSERT INTO tbl_StudentCourse(studentID, courseID, targetGrade) VALUES (2,1,'B');
+INSERT INTO tbl_StudentCourse(studentID, courseID, targetGrade) VALUES (3,1,'B');
+INSERT INTO tbl_StudentCourse(studentID, courseID, targetGrade) VALUES (4,1,'B');
+INSERT INTO tbl_StudentCourse(studentID, courseID, targetGrade) VALUES (5,1,'B');
+INSERT INTO tbl_StudentCourse(studentID, courseID, targetGrade) VALUES (6,1,'B');
+INSERT INTO tbl_StudentCourse(studentID, courseID, targetGrade) VALUES (7,1,'B');
+INSERT INTO tbl_StudentCourse(studentID, courseID, targetGrade) VALUES (8,1,'B');
+INSERT INTO tbl_StudentCourse(studentID, courseID, targetGrade) VALUES (9,1,'B');
+INSERT INTO tbl_StudentCourse(studentID, courseID, targetGrade) VALUES (10,1,'B');
+INSERT INTO tbl_StudentCourse(studentID, courseID, targetGrade) VALUES (11,1,'B');
+INSERT INTO tbl_StudentCourse(studentID, courseID, targetGrade) VALUES (12,1,'B');
+INSERT INTO tbl_StudentCourse(studentID, courseID, targetGrade) VALUES (13,1,'B');
+INSERT INTO tbl_StudentCourse(studentID, courseID, targetGrade) VALUES (14,1,'B');
+INSERT INTO tbl_StudentCourse(studentID, courseID, targetGrade) VALUES (15,1,'B');
+INSERT INTO tbl_StudentCourse(studentID, courseID, targetGrade) VALUES (16,1,'B');
+INSERT INTO tbl_StudentCourse(studentID, courseID, targetGrade) VALUES (17,1,'B');
+INSERT INTO tbl_StudentCourse(studentID, courseID, targetGrade) VALUES (18,1,'B');
+INSERT INTO tbl_StudentCourse(studentID, courseID, targetGrade) VALUES (19,1,'B');
+INSERT INTO tbl_StudentCourse(studentID, courseID, targetGrade) VALUES (20,1,'B');
+
 
 INSERT INTO tbl_StudentModuleResult(studentID,moduleID,results) VALUES (1,1,0);
 INSERT INTO tbl_StudentModuleResult(studentID,moduleID,results) VALUES (2,1,0);

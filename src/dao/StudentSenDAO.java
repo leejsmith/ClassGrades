@@ -23,7 +23,7 @@ public class StudentSenDAO {
 		query = Database.getConnection().createStatement();
 		String sql = "SELECT * FROM tbl_StudentSen";
 		ret = query.executeQuery(sql);
-		query.close();
+		
 		return ret;
 	}
 
@@ -33,7 +33,7 @@ public class StudentSenDAO {
 		query = Database.getConnection().createStatement();
 		String sql = "SELECT * FROM tbl_StudentSen WHERE studentID=" + student;
 		ret = query.executeQuery(sql);
-		query.close();
+		
 		return ret;
 
 	}
@@ -43,7 +43,7 @@ public class StudentSenDAO {
 		query = Database.getConnection().createStatement();
 		String sql = "INSERT INTO tbl_StudentSen (studentID, senID) VALUES (" + student + "," + sen + ");";
 		ret = query.execute(sql);
-		query.close();
+		
 		return ret;
 	}
 
@@ -57,7 +57,7 @@ public class StudentSenDAO {
 			sql = "DELETE FROM tbl_StudentSen WHERE senID=" + id;
 		}
 		ret = query.execute(sql);
-		query.close();
+		
 		return ret;
 
 	}

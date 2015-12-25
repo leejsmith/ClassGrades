@@ -10,15 +10,14 @@ package model;
  */
 public class ModuleResult {
 
-	private Module	module;
-	private int		result;
+	private Module module;
+	private int result;
 
 	/**
 	 * @param module
 	 * @param result
 	 */
 	public ModuleResult(Module module, int result) {
-		super();
 		this.module = module;
 		this.result = result;
 	}
@@ -51,6 +50,10 @@ public class ModuleResult {
 	 */
 	public void setResult(int result) {
 		this.result = result;
+	}
+
+	public String toString() {
+		return module.getModuleName() + " " + result;
 	}
 
 }

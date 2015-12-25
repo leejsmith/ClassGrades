@@ -32,7 +32,7 @@ public class GroupDAO {
 		query = Database.getConnection().createStatement();
 		String sql = "INSERT INTO tbl_Group (groupName) VALUES ('" + g.getGroupName() + "');";
 		boolean ret = query.execute(sql);
-		query.close();
+		
 		return ret;
 	}
 
@@ -40,7 +40,7 @@ public class GroupDAO {
 		query = Database.getConnection().createStatement();
 		String sql = "UPDATE tbl_Group SET groupName='" + g.getGroupName() + "' WHERE groupID=" + g.getGroupID() + ";";
 		boolean ret = query.execute(sql);
-		query.close();
+		
 		return ret;
 	}
 
@@ -49,7 +49,7 @@ public class GroupDAO {
 		String sql = "DELETE FROM tbl_Group WHERE groupID=" + g.getGroupID() + ";";
 		boolean ret = query.execute(sql);
 		ret = query.execute(sql);
-		query.close();
+		
 		return ret;
 	}
 }

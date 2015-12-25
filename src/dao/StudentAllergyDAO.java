@@ -24,7 +24,7 @@ public class StudentAllergyDAO {
 		query = Database.getConnection().createStatement();
 		String sql = "SELECT * FROM tbl_StudentAllergy";
 		ret = query.executeQuery(sql);
-		query.close();
+		
 		return ret;
 
 	}
@@ -35,7 +35,7 @@ public class StudentAllergyDAO {
 		query = Database.getConnection().createStatement();
 		String sql = "SELECT * FROM tbl_StudentAllergy WHERE studentID=" + student;
 		ret = query.executeQuery(sql);
-		query.close();
+		
 		return ret;
 
 	}
@@ -46,7 +46,7 @@ public class StudentAllergyDAO {
 		query = Database.getConnection().createStatement();
 		String sql = "INSERT INTO tbl_StudentAllergy (studentID, allergyID) VALUES (" + student + "," + allergy + ");";
 		ret = query.execute(sql);
-		query.close();
+		
 		return ret;
 
 	}
@@ -61,7 +61,7 @@ public class StudentAllergyDAO {
 			sql = "DELETE FROM tbl_StudentAllergy WHERE allergyID=" + id;
 		}
 		ret = query.execute(sql);
-		query.close();
+		
 		return ret;
 
 	}

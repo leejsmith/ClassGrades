@@ -14,7 +14,7 @@ public class StudentModuleResultDAO {
 		query = Database.getConnection().createStatement();
 		String sql = "SELECT * FROM tbl_StudentModuleResult WHERE studentID=" + student;
 		ret = query.executeQuery(sql);
-		query.close();
+		
 		return ret;
 	}
 
@@ -25,7 +25,7 @@ public class StudentModuleResultDAO {
 		String sql = "INSERT INTO tbl_StudentModuleResult (studentID,moduleID,results) VALUES (" + student + ","
 				+ module + "," + result + ")";
 		ret = query.execute(sql);
-		query.close();
+		
 		return ret;
 
 	}
@@ -40,7 +40,7 @@ public class StudentModuleResultDAO {
 			sql = "DELETE FROM tbl_StudentModuleResult WHERE moduleID=" + id;
 		}
 		ret = query.execute(sql);
-		query.close();
+		
 		return ret;
 
 	}

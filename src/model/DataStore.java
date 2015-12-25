@@ -13,11 +13,14 @@ import javax.swing.JOptionPane;
 import dao.AllergyDAO;
 import dao.CourseDAO;
 import dao.CourseGroupDAO;
+import dao.CourseModuleDAO;
 import dao.GroupDAO;
+import dao.ModuleDAO;
 import dao.SenDAO;
 import dao.StudentAllergyDAO;
 import dao.StudentCourseDAO;
 import dao.StudentDAO;
+import dao.StudentGroupDAO;
 import dao.StudentModuleResultDAO;
 import dao.StudentSenDAO;
 
@@ -51,6 +54,10 @@ public class DataStore {
 		System.out.println("STUDENT LIST: \r");
 		for (Student s : studentList.getStudentsList()) {
 			System.out.println(s.toString());
+			System.out.println(s.getResults().size());
+			for (ModuleResult mr : s.getResults()) {
+				System.out.println(mr.toString());
+			}
 		}
 
 		System.out.println("\rSEN List:\r");
@@ -66,6 +73,9 @@ public class DataStore {
 		System.out.println("\rGroup List\r");
 		for (Group g : groupList.getList()) {
 			System.out.println(g.toString());
+			for (Student s : g.getStudents().getStudentsList()) {
+				System.out.println("Student: " + s.getStudentID());
+			}
 		}
 
 		System.out.println("\rCourse List:\r");
@@ -134,7 +144,6 @@ public class DataStore {
 				String catNonVerbalIn = studentSet.getString("catNonVerbal");
 				String catQuantIn = studentSet.getString("catQuant");
 				String catAverageIn = studentSet.getString("catAverage");
-				System.out.println(forename + " " + surname);
 				Gender gender;
 				switch (genderIn) {
 				case "MALE":
@@ -146,14 +155,11 @@ public class DataStore {
 				default:
 					gender = Gender.OTHER;
 				}
-				System.out.println(catAverageIn);
 				int catMean = catMeanIn.equals("") ? 0 : Integer.parseInt(catMeanIn);
 				int catVerbal = catVerbalIn.equals("") ? 0 : Integer.parseInt(catVerbalIn);
 				int catNonVerbal = catNonVerbalIn.equals("") ? 0 : Integer.parseInt(catNonVerbalIn);
 				int catQuant = catQuantIn.equals("") ? 0 : Integer.parseInt(catQuantIn);
 				int catAverage = catAverageIn.equals("") ? 0 : Integer.parseInt(catAverageIn);
-
-				System.out.println(catAverage);
 
 				Student newStudent = new Student(studentID, surname, forename, regGroup, gender, examNumber,
 						pupilPremium, eal, catMean, catVerbal, catNonVerbal, catQuant, catAverage);
@@ -203,14 +209,24 @@ public class DataStore {
 
 		try {
 			ResultSet groupsRS = GroupDAO.select();
-
+			ResultSet groupStudents = null;
 			while (groupsRS.next()) {
 				int groupID = groupsRS.getInt("groupID");
 				String groupName = groupsRS.getString("groupName");
-				groups.add(groupID, groupName);
+				Group g = new Group(groupID, groupName);
+				groupStudents = StudentGroupDAO.select(groupID);
+				while (groupStudents.next()) {
+					int student = groupStudents.getInt("studentID");
+					g.addStudent(studentList.getStudentByID(student));
+				}
+				groups.add(g);
 			}
 			return groups;
 		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+			return null;
+		} catch (UnknownStudentException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 			return null;
@@ -237,6 +253,19 @@ public class DataStore {
 					c.addGroup(groupList.getGroupByID(groupID));
 				}
 
+				ResultSet courseMods = CourseModuleDAO.select(courseID, true);
+				int moduleID;
+				while (courseMods.next()) {
+					moduleID = courseMods.getInt("moduleID");
+					ResultSet mod = ModuleDAO.select(moduleID);
+					String modName = "";
+					while (mod.next()) {
+						modName = mod.getString("moduleName");
+						break;
+					}
+					c.addModule(new Module(moduleID, modName));
+				}
+
 				courses.add(c);
 			}
 			return courses;
@@ -253,25 +282,30 @@ public class DataStore {
 
 	private void getStudentResults() {
 		try {
-			for (Course c : courseList.getList()) {
-				if (c.getModules().size() > 0) {
-					for (Student s : studentList.getStudentsList()) {
-						ResultSet studentResults = StudentModuleResultDAO.select(s.getStudentID());
 
-						while (studentResults.next()) {
-							int moduleID = studentResults.getInt("moduleID");
-							int result = studentResults.getInt("results");
-							Module m = c.getModules().getModuleByID(moduleID);
+			for (Student s : studentList.getStudentsList()) {
+				ResultSet studentResults = StudentModuleResultDAO.select(s.getStudentID());
 
-							s.addResult(new ModuleResult(m, result));
+				while (studentResults.next()) {
+					int moduleID = studentResults.getInt("moduleID");
+					int result = studentResults.getInt("results");
+					Module m = null;
+					for (Course c : courseList.getList()) {
+						for (Module mod : c.getModules().getList()) {
+							if (mod.getModuleID() == moduleID) {
+								m = mod;
+								break;
+							}
+						}
+						if (m != null) {
+							break;
 						}
 					}
+					s.addResult(new ModuleResult(m, result));
 				}
 			}
+
 		} catch (SQLException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		} catch (UnknownModuleException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
@@ -281,16 +315,14 @@ public class DataStore {
 		try {
 			ResultSet pred = null;
 
-			for (Course c : courseList.getList()) {
+			pred = StudentCourseDAO.select();
 
-				pred = StudentCourseDAO.select(c.getCourseID(), false);
-
-				while (pred.next()) {
-					int studentID = pred.getInt("studentID");
-					char predictedScore = pred.getString("targetGrade").charAt(0);
-
-					studentList.getStudentByID(studentID).addCoursePredicted(c, predictedScore);
-				}
+			while (pred.next()) {
+				int studentID = pred.getInt("studentID");
+				int courseID = pred.getInt("courseID");
+				char predictedScore = pred.getString("targetGrade").charAt(0);
+				studentList.getStudentByID(studentID).addCoursePredicted(courseList.getCourseByID(courseID),
+						predictedScore);
 			}
 
 		} catch (SQLException e) {
@@ -298,7 +330,11 @@ public class DataStore {
 		} catch (UnknownStudentException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
+		} catch (UnknownCourseException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
 		}
+
 	}
 
 	/**

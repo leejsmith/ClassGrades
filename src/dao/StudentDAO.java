@@ -59,7 +59,7 @@ public class StudentDAO {
 					+ "," + s.getCatQuantative() + "," + s.getCatAverage() + ")";
 
 			ret = query.execute(sql);
-			query.close();
+			
 			return ret;
 		} catch (SQLException e) {
 			// TODO Auto-generated catch block

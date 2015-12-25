@@ -24,21 +24,21 @@ public class CourseDAO {
 		ResultSet rs;
 		String sql = "SELECT * FROM tbl_Course";
 		rs = query.executeQuery(sql);
-		query.close();
+		
 		return rs;
 	}
 
 	public static boolean insert(Course c) throws SQLException {
 		query = Database.getConnection().createStatement();
 		boolean ret = query.execute("INSERT INTO tbl_Course(courseName) VALUES (" + c.getCourseName() + ")");
-		query.close();
+		
 		return ret;
 	}
 
 	public static boolean insertMultiple(String sql) throws SQLException {
 		query = Database.getConnection().createStatement();
 		boolean ret = query.execute(sql);
-		query.close();
+		
 		return ret;
 	}
 
@@ -46,7 +46,7 @@ public class CourseDAO {
 		query = Database.getConnection().createStatement();
 		String sql = "UPDATE tbl_Courses SET courseName='" + c.getCourseName() + "' WHERE courseID=" + c.getCourseID();
 		boolean retVal = query.execute(sql);
-		query.close();
+		
 		return retVal;
 	}
 
@@ -54,7 +54,7 @@ public class CourseDAO {
 		query = Database.getConnection().createStatement();
 		String sql = "DELETE FROM tbl_Course WHERE courseID=" + c.getCourseID() + ";";
 		boolean ret = query.execute(sql);
-		query.close();
+		
 		return ret;
 	}
 

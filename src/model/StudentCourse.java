@@ -7,7 +7,6 @@ public class StudentCourse {
 	public StudentCourse(Course c, char p) {
 		this.course = c;
 		this.setPredicted(p);
-
 	}
 
 	public Course getCourse() {
@@ -25,8 +24,8 @@ public class StudentCourse {
 	public void setPredicted(Grades predicted) {
 		this.predicted = predicted;
 	}
-	
-	public void setPredicted(int p){
+
+	public void setPredicted(char p) {
 		switch (p) {
 		case 'S':
 			predicted = Grades.S;
@@ -57,4 +56,7 @@ public class StudentCourse {
 		}
 	}
 
+	public String toString() {
+		return course.getCourseName() + " " + predicted.getNumVal();
+	}
 }

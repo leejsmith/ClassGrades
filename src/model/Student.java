@@ -12,23 +12,23 @@ import java.util.ArrayList;
  */
 public class Student {
 
-	private int						studentID;
-	private String					surname;
-	private String					forname;
-	private String					regGroup;
-	private Gender					gender;
-	private int						examNumber;
-	private boolean					pupilPremiun;
-	private boolean					eal;
-	private int						catMean;
-	private int						catVerbal;
-	private int						catNonVerbal;
-	private int						catQuantative;
-	private int						catAverage;
+	private int studentID;
+	private String surname;
+	private String forname;
+	private String regGroup;
+	private Gender gender;
+	private int examNumber;
+	private boolean pupilPremiun;
+	private boolean eal;
+	private int catMean;
+	private int catVerbal;
+	private int catNonVerbal;
+	private int catQuantative;
+	private int catAverage;
 
-	private SenList					senStatus;
-	private AllergyList				allergyList;
-	private ArrayList<ModuleResult>	results;
+	private SenList senStatus;
+	private AllergyList allergyList;
+	private ArrayList<ModuleResult> results;
 	private ArrayList<StudentCourse> predictedResults;
 
 	/**
@@ -45,8 +45,9 @@ public class Student {
 	 * @param catNonVerbal
 	 * @param catQuantative
 	 */
-	public Student(int studentID, String surname, String forname, String regGroup, Gender gender, int examNumber, boolean pupilPremiun, boolean eal, int catMean, int catVerbal, int catNonVerbal,
-			int catQuantative, int catAverage) {
+	public Student(int studentID, String surname, String forname, String regGroup, Gender gender, int examNumber,
+			boolean pupilPremiun, boolean eal, int catMean, int catVerbal, int catNonVerbal, int catQuantative,
+			int catAverage) {
 		super();
 		this.studentID = studentID;
 		this.surname = surname;
@@ -61,6 +62,8 @@ public class Student {
 		this.catNonVerbal = catNonVerbal;
 		this.catQuantative = catQuantative;
 		this.catAverage = catAverage;
+		this.senStatus = new SenList();
+		this.allergyList = new AllergyList();
 		this.results = new ArrayList<ModuleResult>();
 		this.predictedResults = new ArrayList<StudentCourse>();
 	}
@@ -320,9 +323,9 @@ public class Student {
 	public void addResult(ModuleResult mr) {
 		this.results.add(mr);
 	}
-	
-	public void addCoursePredicted(Course c, char predicted){
-		this.predictedResults.add(new StudentCourse(c,predicted));
+
+	public void addCoursePredicted(Course c, char predicted) {
+		this.predictedResults.add(new StudentCourse(c, predicted));
 	}
 
 	/*
@@ -332,9 +335,23 @@ public class Student {
 	 */
 	@Override
 	public String toString() {
-		return "StudentID=" + studentID + " Surname: " + surname + " Forname: " + forname + " regGroup: " + regGroup + " gender: " + gender + " examNumber: " + examNumber + ", pupilPremiun: "
-				+ pupilPremiun + " eal: " + eal + " catMean: " + catMean + " catVerbal: " + catVerbal + " catNonVerbal: " + catNonVerbal + " catQuantative: " + catQuantative + " catAverage: "
-				+ catAverage;
+		StringBuilder sb = new StringBuilder();
+		sb.append("StudentID=" + studentID + " Surname: " + surname + " Forname: " + forname + " regGroup: " + regGroup
+				+ " gender: " + gender + " examNumber: " + examNumber + ", pupilPremiun: " + pupilPremiun + " eal: "
+				+ eal + " catMean: " + catMean + " catVerbal: " + catVerbal + " catNonVerbal: " + catNonVerbal
+				+ " catQuantative: " + catQuantative + " catAverage: " + catAverage + "\r \t");
+		for (Sen s : senStatus.getList()) {
+			sb.append(s.toString());
+		}
+		sb.append("\r\t");
+		for (Allergy a : allergyList.getList()) {
+			sb.append(a.toString());
+		}
+		sb.append("\r\t");
+		for (StudentCourse sc : predictedResults) {
+			sb.append(sc.toString());
+		}
+		return sb.toString();
 	}
 
 }

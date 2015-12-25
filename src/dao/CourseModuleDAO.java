@@ -14,13 +14,13 @@ import controller.Database;
  * @author Lee John Smith
  *
  */
-public class CourseGroupDAO {
+public class CourseModuleDAO {
 
 	private static Statement query;
 
 	public static ResultSet select() throws SQLException {
 		ResultSet ret;
-		String sql = "SELECT * FROM tbl_CourseGroup";
+		String sql = "SELECT * FROM tbl_CourseModule";
 		query = Database.getConnection().createStatement();
 		ret = query.executeQuery(sql);
 
@@ -32,18 +32,18 @@ public class CourseGroupDAO {
 		ResultSet ret = null;
 		String sql;
 		if (isCourse) {
-			sql = "SELECT groupID FROM tbl_CourseGroup WHERE courseID=" + id;
+			sql = "SELECT moduleID FROM tbl_CourseModule WHERE courseID=" + id;
 		} else {
-			sql = "SELECT courseID FROM tbl_CourseGroup WHERE groupID=" + id;
+			sql = "SELECT courseID FROM tbl_CourseModule WHERE moduleID=" + id;
 		}
 		ret = query.executeQuery(sql);
 
 		return ret;
 	}
 
-	public static boolean insert(int course, int group) throws SQLException {
+	public static boolean insert(int course, int module) throws SQLException {
 		boolean ret = false;
-		String sql = "INSERT INTO tbl_CourseGroup (courseID, groupID) VALUES (" + course + "," + group + ");";
+		String sql = "INSERT INTO tbl_CourseModule (courseID, moduleID) VALUES (" + course + "," + module + ");";
 		query = Database.getConnection().createStatement();
 		ret = query.execute(sql);
 
@@ -55,9 +55,9 @@ public class CourseGroupDAO {
 		boolean ret = false;
 		query = Database.getConnection().createStatement();
 		if (isCourse) {
-			sql = "DELETE FROM tbl_CourseGroup WHERE courseID = " + id + "";
+			sql = "DELETE FROM tbl_CourseModule WHERE courseID = " + id + "";
 		} else {
-			sql = "DELETE FROM tbl_CourseGroup WHERE groupID = " + id + "";
+			sql = "DELETE FROM tbl_CourseModule WHERE moduleID = " + id + "";
 		}
 		ret = query.execute(sql);
 		return ret;

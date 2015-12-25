@@ -24,25 +24,36 @@ public class ModuleDAO {
 		query = Database.getConnection().createStatement();
 		String sql = "SELECT * FROM tbl_Module";
 		ret = query.executeQuery(sql);
-		query.close();
+
+		return ret;
+	}
+
+	public static ResultSet select(int moduleID) throws SQLException {
+		ResultSet ret = null;
+		query = Database.getConnection().createStatement();
+		String sql = "SELECT * FROM tbl_Module WHERE moduleID=" + moduleID;
+		ret = query.executeQuery(sql);
+
 		return ret;
 	}
 
 	public static boolean insert(Module m, int courseID) throws SQLException {
 		boolean ret = false;
 		query = Database.getConnection().createStatement();
-		String sql = "INSERT INTO tbl_Module (moduleName, courseID) VALUES ('" + m.getModuleName() + "'," + courseID + ")";
+		String sql = "INSERT INTO tbl_Module (moduleName, courseID) VALUES ('" + m.getModuleName() + "'," + courseID
+				+ ")";
 		ret = query.execute(sql);
-		query.close();
+
 		return ret;
 	}
 
 	public static boolean update(Module m) throws SQLException {
 		boolean ret = false;
 		query = Database.getConnection().createStatement();
-		String sql = "UPDATE tbl_Module " + "SET (moduleName='" + m.getModuleName() + "') WHERE moduleID=" + m.getModuleID() + ");";
+		String sql = "UPDATE tbl_Module " + "SET (moduleName='" + m.getModuleName() + "') WHERE moduleID="
+				+ m.getModuleID() + ");";
 		ret = query.execute(sql);
-		query.close();
+
 		return ret;
 	}
 

@@ -18,19 +18,37 @@ public class StudentCourseDAO {
 
 	private static Statement query;
 
+	public static ResultSet select() {
+		String sql = "";
+		ResultSet studentRS = null;
+		try {
+			query = Database.getConnection().createStatement();
+			sql = "SELECT * FROM tbl_StudentCourse";
+
+			studentRS = query.executeQuery(sql);
+			return studentRS;
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		return studentRS;
+	}
+
 	public static ResultSet select(int id, boolean isStudent) throws SQLException {
-		String SQL;
+		String sql;
 
 		if (isStudent) {
-			SQL = "SELECT * FROM tbl_StudentCourse WHERE studentID=" + id;
+			sql = "SELECT * FROM tbl_StudentCourse WHERE studentID=" + id;
 		} else {
-			SQL = "SELECT * FROM tbl_StudentCourse WHERE courseID=" + id;
+			sql = "SELECT * FROM tbl_StudentCourse WHERE courseID=" + id;
 		}
 
 		ResultSet studentsRS = null;
 
 		query = Database.getConnection().createStatement();
-		query.close();
+
+		studentsRS = query.executeQuery(sql);
+
 		return studentsRS;
 	}
 
@@ -55,7 +73,7 @@ public class StudentCourseDAO {
 			sql = "DELETE FROM tbl_StudentCourse WHERE courseID=" + id;
 		}
 		ret = query.execute(sql);
-		query.close();
+
 		return ret;
 
 	}
