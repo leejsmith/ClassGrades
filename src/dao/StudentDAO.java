@@ -19,13 +19,27 @@ public class StudentDAO {
 
 	private static Statement query;
 
+	public static int getStudentCount() {
+		try {
+			query = Database.getConnection().createStatement();
+			ResultSet countTest;
+			String sql = "SELECT COUNT(*) AS count FROM tbl_Student";
+			countTest = query.executeQuery(sql);
+			while (countTest.next()) {
+				return countTest.getInt("count");
+			}
+		} catch (SQLException e) {
+			return 0;
+		}
+		return 0;
+	}
+
 	public static ResultSet select() {
 		ResultSet ret = null;
 		try {
 			query = Database.getConnection().createStatement();
 			String sql = "SELECT * FROM tbl_Student";
 			ret = query.executeQuery(sql);
-			query.close();
 			return ret;
 		} catch (Exception e) {
 			// TODO Auto-generated catch block

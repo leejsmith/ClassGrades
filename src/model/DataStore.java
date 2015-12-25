@@ -46,6 +46,8 @@ public class DataStore {
 		getStudentResults();
 		getStudentPredicted();
 
+		// System.out.println("Student Count: " + StudentDAO.getStudentCount());
+
 		System.out.println("STUDENT LIST: \r");
 		for (Student s : studentList.getStudentsList()) {
 			System.out.println(s.toString());
@@ -118,11 +120,10 @@ public class DataStore {
 
 		try {
 			ResultSet studentSet = StudentDAO.select();
-			int i = 1;
 			while (studentSet.next()) {
 				int studentID = studentSet.getInt("studentID");
 				String surname = studentSet.getString("surname");
-				String forname = studentSet.getString("forename");
+				String forename = studentSet.getString("forename");
 				String regGroup = studentSet.getString("regGroup");
 				String genderIn = studentSet.getString("gender");
 				int examNumber = studentSet.getInt("examNumber");
@@ -133,9 +134,8 @@ public class DataStore {
 				String catNonVerbalIn = studentSet.getString("catNonVerbal");
 				String catQuantIn = studentSet.getString("catQuant");
 				String catAverageIn = studentSet.getString("catAverage");
-
+				System.out.println(forename + " " + surname);
 				Gender gender;
-
 				switch (genderIn) {
 				case "MALE":
 					gender = Gender.MALE;
@@ -155,7 +155,7 @@ public class DataStore {
 
 				System.out.println(catAverage);
 
-				Student newStudent = new Student(studentID, surname, forname, regGroup, gender, examNumber,
+				Student newStudent = new Student(studentID, surname, forename, regGroup, gender, examNumber,
 						pupilPremium, eal, catMean, catVerbal, catNonVerbal, catQuant, catAverage);
 
 				ResultSet senRS = StudentSenDAO.select(studentID);
@@ -164,7 +164,7 @@ public class DataStore {
 				while (senRS.next()) {
 					senID = senRS.getInt("senID");
 					try {
-						senList.add(senList.getSenByID(senID));
+						newStudent.addSenStatus(senList.getSenByID(senID));
 					} catch (UnknownSenException e) {
 						JOptionPane.showMessageDialog(null,
 								"Error importing Student SEN Information. Speak to System Administrator. Quote the Following \"Student SEN Import Error - Student"
@@ -179,16 +179,17 @@ public class DataStore {
 				while (allergyRS.next()) {
 					allergyID = allergyRS.getInt("allergyID");
 					try {
-						allergyList.add(allergyList.getAllergyByID(allergyID));
+						newStudent.addAllergy(allergyList.getAllergyByID(allergyID));
 					} catch (UnknownAllergyException e) {
 						JOptionPane.showMessageDialog(null,
 								"Error importing Student Allergy Information. Speak to System Administrator. Quote the Following \"Student Allergy Import Error - Student"
 										+ studentID + "\" ");
 					}
 				}
-				System.out.println(newStudent.getStudentID());
+				// System.out.println(newStudent.getStudentID());
 				studentList.add(newStudent);
 			}
+			return studentList;
 
 		} catch (SQLException e) {
 			// TODO Auto-generated catch block
