@@ -21,6 +21,7 @@ import javax.swing.SwingConstants;
 import javax.swing.UIManager;
 import javax.swing.UnsupportedLookAndFeelException;
 
+import controller.Main;
 import dao.GeneralDAO;
 import model.User;
 
@@ -98,7 +99,7 @@ public class Login extends JFrame {
 			public void actionPerformed(ActionEvent arg0) {
 				User user = GeneralDAO.checkUser(txtUsername.getText(), txtPassword.getPassword());
 				if (user != null) {
-					JOptionPane.showMessageDialog(null, "Success");
+					new Main();
 				} else {
 					JOptionPane.showMessageDialog(null, "Incorrect Username or Password");
 				}

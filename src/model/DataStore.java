@@ -80,6 +80,10 @@ public class DataStore {
 		System.out.println("\rCourse List:\r");
 		for (Course c : courseList.getList()) {
 			System.out.println(c.toString());
+			System.out.println(c.getGroups().size());
+			for (Group g : c.getGroups().getList()) {
+				System.out.println(g.toString());
+			}
 		}
 
 	}
@@ -246,9 +250,9 @@ public class DataStore {
 				Course c = new Course(courseID, courseName);
 
 				groupsRS = CourseGroupDAO.select(courseID, true);
-
+				int groupID = 0;
 				while (groupsRS.next()) {
-					int groupID = groupsRS.getInt("groupID");
+					groupID = groupsRS.getInt("groupID");
 					c.addGroup(groupList.getGroupByID(groupID));
 				}
 
