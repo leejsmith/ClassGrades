@@ -1,13 +1,20 @@
 package view;
 
 import java.awt.BorderLayout;
+import java.awt.Dimension;
+import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
+import javax.swing.DefaultComboBoxModel;
+import javax.swing.JButton;
+import javax.swing.JComboBox;
 import javax.swing.JFrame;
+import javax.swing.JLabel;
 import javax.swing.JMenu;
 import javax.swing.JMenuBar;
 import javax.swing.JMenuItem;
 import javax.swing.JPanel;
+import javax.swing.JTable;
 
 import controller.MainWindowListener;
 import controller.MenuListener;
@@ -17,6 +24,7 @@ public class MainWindow extends JFrame {
 	private JPanel contentPane;
 	private ActionListener listener;
 	private MenuListener ml;
+	private JTable table;
 
 	/**
 	 * Create the frame.
@@ -98,8 +106,66 @@ public class MainWindow extends JFrame {
 		mntmAbout.addActionListener(ml);
 
 		contentPane = new JPanel();
-		contentPane.setLayout(new BorderLayout(0, 0));
 		setContentPane(contentPane);
-	}
+		contentPane.setLayout(new BorderLayout(0, 0));
 
+		JPanel panel = new JPanel();
+		panel.setPreferredSize(new Dimension(200, 12));
+		contentPane.add(panel, BorderLayout.WEST);
+		panel.setLayout(null);
+
+		JButton btnAddStudentResult = new JButton("Add Student Results");
+		btnAddStudentResult.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent arg0) {
+				new EditStudent();
+			}
+		});
+		btnAddStudentResult.setBounds(10, 11, 180, 43);
+		panel.add(btnAddStudentResult);
+
+		JButton btnViewCourses = new JButton("View Courses");
+		btnViewCourses.setBounds(10, 65, 180, 43);
+		panel.add(btnViewCourses);
+
+		JButton btnViewGroups = new JButton("View Groups");
+		btnViewGroups.setBounds(10, 119, 180, 43);
+		panel.add(btnViewGroups);
+
+		JButton btnCreateNewCourse = new JButton("Create New Course");
+		btnCreateNewCourse.setBounds(10, 173, 180, 43);
+		panel.add(btnCreateNewCourse);
+
+		JButton btnCreateNewGroup = new JButton("Create New Group");
+		btnCreateNewGroup.setBounds(10, 227, 180, 43);
+		panel.add(btnCreateNewGroup);
+
+		JButton btnCreateNewStudent = new JButton("Create New Student");
+		btnCreateNewStudent.setBounds(10, 281, 180, 43);
+		panel.add(btnCreateNewStudent);
+
+		JButton btnImport = new JButton("Import Students From CSV");
+		btnImport.setBounds(10, 335, 180, 43);
+		panel.add(btnImport);
+
+		JPanel panel_1 = new JPanel();
+		contentPane.add(panel_1, BorderLayout.CENTER);
+		panel_1.setLayout(new BorderLayout(0, 0));
+
+		JPanel panel_2 = new JPanel();
+		panel_2.setPreferredSize(new Dimension(10, 60));
+		panel_1.add(panel_2, BorderLayout.NORTH);
+		panel_2.setLayout(null);
+
+		JLabel lblNewLabel = new JLabel("Display");
+		lblNewLabel.setBounds(27, 26, 46, 14);
+		panel_2.add(lblNewLabel);
+
+		JComboBox comboBox = new JComboBox();
+		comboBox.setModel(new DefaultComboBoxModel(new String[] { "Courses", "Groups" }));
+		comboBox.setBounds(68, 23, 137, 20);
+		panel_2.add(comboBox);
+
+		table = new JTable();
+		panel_1.add(table, BorderLayout.CENTER);
+	}
 }
